@@ -2,7 +2,7 @@
 version: "2"
 services:
   www:
-    image: quasarwoo:1.2
+    image: quasarwoo:1.3
     restart: always
     expose:
       - "80"
