@@ -1,0 +1,19 @@
+# docker-compose.yml
+version: "2"
+services:
+  www:
+    image: quasarwoo:1.2
+    restart: always
+    expose:
+      - "80"
+    # volumes:
+      # - /Users/kbs/git/peladonerd/varios/1/www:/usr/share/nginx/html:ro
+      # - //d/storeDocker/html:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=wooadmin.apps.com.pe,www.wooadmin.apps.com.pe
+      - LETSENCRYPT_HOST=wooadmin.apps.com.pe,www.wooadmin.apps.com.pe
+      - LETSENCRYPT_EMAIL=kevin.silva.095@gmail.com
+networks:
+  default:
+    external:
+      name: nginx-proxy_default
