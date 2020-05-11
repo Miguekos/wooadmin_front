@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -10,18 +10,19 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
         <q-toolbar-title>Woo Admin</q-toolbar-title>
-
         <div>V{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      :width="200"
+      :breakpoint="500"
+      overlay
+      content-class="bg-grey-3"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
     >
       <q-list>
         <q-item-label header class="text-grey-8">Menu</q-item-label>

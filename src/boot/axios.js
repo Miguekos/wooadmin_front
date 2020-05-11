@@ -11,7 +11,16 @@ axios.defaults.withCredentials = true;
 //     '^/api/': '', // rewrite path
 //   },
 // });
+let URLs;
+if (process.env.DEV) {
+  // URLs = "http://95.111.235.214:8050"
+  // URLs = "http://192.168.0.33:8050"
+  URLs = "http://192.168.0.32:8050"
+}
 
+if (process.env.PRO) {
+  URLs = "https://api.apps.com.pe"
+}
 const axiosInstance = axios.create({
   // paramsSerializer: params => {
   //   return qs.stringify(params, { arrayFormat: "repeat" });
@@ -23,7 +32,8 @@ const axiosInstance = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
-  baseURL: "https://api.apps.com.pe"
+  // baseURL: "https://api.apps.com.pe"
+  baseURL : URLs
 });
 
 export default ({ Vue }) => {

@@ -1,8 +1,8 @@
 {
   "name": "wooadmin_front",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "Admininstador Woocommerce",
+  "productName": "Woo Admin",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Miguel Rodriguez <miguekos1233@gmail.com>",

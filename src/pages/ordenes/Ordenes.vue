@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-xs">
     {{ filtrosNuevos }}
-    <div class="row q-gutter-sm">
+    <div class="row q-gutter-xs q-pa-xs">
       <div class="col-12 col-md">
         <q-input dense filled v-model="keyword" label="Buscar" />
       </div>
@@ -9,54 +9,57 @@
         <q-select
           color="orange"
           filled
+          clearable
           dense
           v-model="citys"
           :options="city_unique"
           label="Ciudades"
         >
-          <template v-if="citys" v-slot:append>
-            <q-icon
-              name="cancel"
-              @click.stop="citys = null"
-              class="cursor-pointer"
-            />
-          </template>
+          <!--          <template v-if="citys" v-slot:append>-->
+          <!--            <q-icon-->
+          <!--              name="cancel"-->
+          <!--              @click.stop="citys = null"-->
+          <!--              class="cursor-pointer"-->
+          <!--            />-->
+          <!--          </template>-->
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
           color="green"
           filled
+          clearable
           dense
           v-model="statuss"
           :options="status_unique"
           label="Estados"
         >
-          <template v-if="statuss" v-slot:append>
-            <q-icon
-              name="cancel"
-              @click.stop="statuss = null"
-              class="cursor-pointer"
-            />
-          </template>
+          <!--          <template v-if="statuss" v-slot:append>-->
+          <!--            <q-icon-->
+          <!--              name="cancel"-->
+          <!--              @click.stop="statuss = null"-->
+          <!--              class="cursor-pointer"-->
+          <!--            />-->
+          <!--          </template>-->
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
           color="indigo"
           filled
+          clearable
           dense
           v-model="payment_method_titles"
           :options="payment_method_title_unique"
           label="Metodos de Pago"
         >
-          <template v-if="payment_method_titles" v-slot:append>
-            <q-icon
-              name="cancel"
-              @click.stop="payment_method_titles = null"
-              class="cursor-pointer"
-            />
-          </template>
+          <!--          <template v-if="payment_method_titles" v-slot:append>-->
+          <!--            <q-icon-->
+          <!--              name="cancel"-->
+          <!--              @click.stop="payment_method_titles = null"-->
+          <!--              class="cursor-pointer"-->
+          <!--            />-->
+          <!--          </template>-->
         </q-select>
       </div>
     </div>
@@ -64,6 +67,7 @@
       <div class="q-pa-xs">
         <q-table
           dense
+          class="cursor-pointer transparent"
           title="Ordenes"
           :data="filteredByAll"
           :columns="columns"
@@ -96,26 +100,32 @@
                 {{ props.row.billing.first_name }}
               </q-td>
               <q-td key="id_pedido" :props="props">
-                <q-badge color="purple">{{ props.row.id }}</q-badge>
+                <!--                <q-badge color="purple">{{ props.row.id }}</q-badge>-->
+                {{ props.row.id }}
               </q-td>
               <q-td key="payment_method" :props="props">
-                <q-badge color="orange">{{ props.row.payment_method }}</q-badge>
+                <!--                <q-badge color="orange">{{ props.row.payment_method }}</q-badge>-->
+                {{ props.row.payment_method }}
               </q-td>
               <q-td key="payment_method_title" :props="props">
-                <q-badge color="primary">
-                  {{ props.row.payment_method_title }}
-                </q-badge>
+                <!--                <q-badge color="primary">-->
+                <!--                  {{ props.row.payment_method_title }}-->
+                <!--                </q-badge>-->
+                {{ props.row.payment_method_title }}
               </q-td>
               <q-td key="shipping_address_1" :props="props">
-                <q-badge color="teal">
-                  {{ props.row.shipping.address_1 }}
-                </q-badge>
+                <!--                <q-badge color="teal">-->
+                <!--                  {{ props.row.shipping.address_1 }}-->
+                <!--                </q-badge>-->
+                {{ props.row.shipping.address_1 }}
               </q-td>
               <q-td key="city" :props="props">
-                <q-badge color="accent">{{ props.row.shipping.city }}</q-badge>
+                <!--                <q-badge color="accent">{{ props.row.shipping.city }}</q-badge>-->
+                {{ props.row.shipping.city }}
               </q-td>
               <q-td key="shipping_total" :props="props">
-                <q-badge color="amber">{{ props.row.shipping_total }}</q-badge>
+                <!--                <q-badge color="amber">{{ props.row.shipping_total }}</q-badge>-->
+                {{ props.row.shipping_total }}
               </q-td>
             </q-tr>
           </template>
@@ -258,7 +268,9 @@ export default {
     getByKeyword(list, keyword) {
       const search = keyword.trim().toLowerCase();
       if (!search.length) return list;
-      return list.filter(item => item.billing.first_name.toLowerCase().indexOf(search) > -1);
+      return list.filter(
+        item => item.billing.first_name.toLowerCase().indexOf(search) > -1
+      );
     },
     getByStatus(list, status) {
       if (!status) return list;

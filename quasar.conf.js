@@ -106,7 +106,10 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxOptions: {
+        skipWaiting: true,
+        clientsClaim: true
+      }, // only for GenerateSW
       manifest: {
         name: 'Quasar App',
         short_name: 'Quasar App',
@@ -142,7 +145,51 @@ module.exports = function (/* ctx */) {
             type: 'image/png'
           }
         ]
-      }
+      },
+      // metaVariables: {
+      //   appleMobileWebAppCapable: 'yes',
+      //   appleMobileWebAppStatusBarStyle: 'default',
+      //   appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
+      //   appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
+      //   appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
+      //   appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
+      //   appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
+      //   msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
+      //   msapplicationTileColor: '#000000'
+      // },
+      // (@quasar/app v1.6.2+)
+      // Optional, overrides metaVariables above;
+      // Use this OR metaVariables, but not both;
+      // metaVariablesFn (manifest) {
+      //   // ...
+      //   return [
+      //     {
+      //       // this entry will generate:
+      //       // <meta name="theme-color" content="ff0">
+      //
+      //       tagName: 'meta',
+      //       attributes: {
+      //         name: 'theme-color',
+      //         content: '#ff0'
+      //       }
+      //     },
+      //
+      //     {
+      //       // this entry will generate:
+      //       // <link rel="apple-touch-icon" sizes="180x180" href="statics/icon-180.png">
+      //
+      //       tagName: 'link',
+      //       attributes: {
+      //         rel: 'apple-touch-icon',
+      //         sizes: '180x180',
+      //         href: 'statics/icon-180.png'
+      //       },
+      //       closeTag: false // this is optional;
+      //                       // specifies if tag also needs an explicit closing tag;
+      //                       // it's Boolean false by default
+      //     }
+      //   ]
+      // }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
