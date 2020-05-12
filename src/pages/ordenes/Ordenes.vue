@@ -231,6 +231,12 @@ export default {
           .onOk(() => {
             console.log("Puede pasar");
             this.OlvaEnvio(items);
+            this.$q.notify({
+              message: "Enviando...!",
+              color: "green-8",
+              position: "top-right"
+            });
+            this.selected = [];
           })
           .onOk(() => {
             // console.log('>>>> second OK catcher')
