@@ -67,8 +67,9 @@ const actions = {
   async OlvaEnvio({ commit }, payload) {
     console.log("Todos los ordenes");
     console.log(enviarOlva(payload));
-    // const response = await axiosInstance.post(`/olva`, enviarOlva(payload));
+    const response = await axiosInstance.post(`/olva`, enviarOlva(payload));
     console.log("Todos los ordenes");
+    console.log(response.data);
     // commit("setOrdenes", response.data);
     // return response.data;
   },

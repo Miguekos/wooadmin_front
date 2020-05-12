@@ -230,7 +230,7 @@ export default {
           })
           .onOk(() => {
             console.log("Puede pasar");
-            // this.OlvaEnvio(items);
+            this.OlvaEnvio(items);
           })
           .onOk(() => {
             // console.log('>>>> second OK catcher')
