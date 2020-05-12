@@ -13,6 +13,13 @@
           :filter="filter"
           :pagination.sync="pagination"
         >
+          <template v-slot:no-data="{ icon, message, filter }">
+            <div class="full-width row flex-center text-accent q-gutter-sm">
+              <q-icon size="2em" name="sentiment_dissatisfied" />
+              <span> Bueno... esto es triste: {{ message }} </span>
+              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+            </div>
+          </template>
           <template v-slot:body="props">
             <q-tr @click="detalleCliente(props.row)" :props="props">
               <q-td key="name" :props="props">

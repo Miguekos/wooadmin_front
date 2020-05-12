@@ -3,7 +3,7 @@
     <q-table
       hide-header
       color="primary"
-      card-class="bg-amber-5 text-brown"
+      card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
       flat
@@ -12,9 +12,18 @@
       :data="getOlva"
       :columns="columns"
       row-key="name"
-    />
+    >
+      <template v-slot:no-data="{ icon, message, filter }">
+        <div class="full-width row flex-center text-accent q-gutter-sm">
+          <q-icon size="2em" name="sentiment_dissatisfied" />
+          <span> Bueno... esto es triste: {{ message }} </span>
+          <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+        </div>
+      </template>
+    </q-table>
   </div>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -40,7 +49,12 @@ export default {
           field: "consignado",
           sortable: true
         },
-        { name: "observacion", label: "Observacion", field: "observacion", sortable: true }
+        {
+          name: "observacion",
+          label: "Observacion",
+          field: "observacion",
+          sortable: true
+        }
       ],
       data: [
         {
@@ -149,8 +163,8 @@ export default {
   methods: {
     ...mapActions("ordenes", ["mongolvaGet"])
   },
-  created () {
-    this.mongolvaGet()
-    }
+  created() {
+    this.mongolvaGet();
+  }
 };
 </script>

@@ -3,11 +3,11 @@
     {{ filtrosNuevos }}
     <div class="row q-gutter-xs q-pa-xs">
       <div class="col-12 col-md">
-        <q-input dense filled v-model="keyword" label="Buscar" />
+        <q-input dense filled v-model="keyword" label="Buscar por nombre" />
       </div>
       <div class="col-12 col-md">
         <q-select
-          color="orange"
+          color="orange-10"
           filled
           clearable
           dense
@@ -15,18 +15,11 @@
           :options="city_unique"
           label="Ciudades"
         >
-          <!--          <template v-if="citys" v-slot:append>-->
-          <!--            <q-icon-->
-          <!--              name="cancel"-->
-          <!--              @click.stop="citys = null"-->
-          <!--              class="cursor-pointer"-->
-          <!--            />-->
-          <!--          </template>-->
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
-          color="green"
+          color="green-10"
           filled
           clearable
           dense
@@ -34,18 +27,11 @@
           :options="status_unique"
           label="Estados"
         >
-          <!--          <template v-if="statuss" v-slot:append>-->
-          <!--            <q-icon-->
-          <!--              name="cancel"-->
-          <!--              @click.stop="statuss = null"-->
-          <!--              class="cursor-pointer"-->
-          <!--            />-->
-          <!--          </template>-->
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
-          color="indigo"
+          color="indigo-10"
           filled
           clearable
           dense
@@ -53,81 +39,45 @@
           :options="payment_method_title_unique"
           label="Metodos de Pago"
         >
-          <!--          <template v-if="payment_method_titles" v-slot:append>-->
-          <!--            <q-icon-->
-          <!--              name="cancel"-->
-          <!--              @click.stop="payment_method_titles = null"-->
-          <!--              class="cursor-pointer"-->
-          <!--            />-->
-          <!--          </template>-->
         </q-select>
+      </div>
+      <div class="col-12 col-md">
+        <q-btn
+          color="green-4"
+          class="full-width"
+          @click="enviarOlva()"
+          text-color="black"
+          push
+          label="enviar"
+        />
       </div>
     </div>
     <template>
       <div class="q-pa-xs">
         <q-table
           dense
-          class="cursor-pointer transparent"
+          class="cursor-pointer bg-grey-3"
           title="Ordenes"
           :data="filteredByAll"
           :columns="columns"
-          row-key="name"
+          row-key="id"
           :loading="loading"
           :filter="filter"
           :pagination.sync="pagination"
+          selection="multiple"
+          :selected.sync="selected"
         >
-          <template v-slot:header="props">
-            <q-tr :props="props">
-              <q-th
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-                class=""
-                style="font-size: 16px"
-              >
-                {{ col.label }}
-              </q-th>
-            </q-tr>
-          </template>
-          <!-- <template v-slot:body-cell="props">
-            <q-td :props="props">
-              <q-badge color="blue" :label="props.value" />
+          <template v-slot:body-cell="props">
+            <q-td @click="detalleCliente(props.row)" :props="props">
+              {{ props.value }}
             </q-td>
-          </template> -->
-          <template v-slot:body="props">
-            <q-tr @click="detalleCliente(props.row)" :props="props">
-              <q-td key="name" :props="props">
-                {{ props.row.billing.first_name }}
-              </q-td>
-              <q-td key="id_pedido" :props="props">
-                <!--                <q-badge color="purple">{{ props.row.id }}</q-badge>-->
-                {{ props.row.id }}
-              </q-td>
-              <q-td key="payment_method" :props="props">
-                <!--                <q-badge color="orange">{{ props.row.payment_method }}</q-badge>-->
-                {{ props.row.payment_method }}
-              </q-td>
-              <q-td key="payment_method_title" :props="props">
-                <!--                <q-badge color="primary">-->
-                <!--                  {{ props.row.payment_method_title }}-->
-                <!--                </q-badge>-->
-                {{ props.row.payment_method_title }}
-              </q-td>
-              <q-td key="shipping_address_1" :props="props">
-                <!--                <q-badge color="teal">-->
-                <!--                  {{ props.row.shipping.address_1 }}-->
-                <!--                </q-badge>-->
-                {{ props.row.shipping.address_1 }}
-              </q-td>
-              <q-td key="city" :props="props">
-                <!--                <q-badge color="accent">{{ props.row.shipping.city }}</q-badge>-->
-                {{ props.row.shipping.city }}
-              </q-td>
-              <q-td key="shipping_total" :props="props">
-                <!--                <q-badge color="amber">{{ props.row.shipping_total }}</q-badge>-->
-                {{ props.row.shipping_total }}
-              </q-td>
-            </q-tr>
+          </template>
+          <template v-slot:no-data="{ icon, message, filter }">
+            <div class="full-width row flex-center text-green-7 q-gutter-sm">
+              <q-icon size="2em" name="sentiment_dissatisfied" />
+              <span> Bueno... esto es triste: {{ message }} </span>
+              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+            </div>
           </template>
         </q-table>
       </div>
@@ -195,6 +145,7 @@ export default {
   },
   data() {
     return {
+      selected: [],
       city: [],
       citys: "",
       payment_method_title: [],
@@ -264,7 +215,40 @@ export default {
     SearchNew: () => import("components/SearchNew")
   },
   methods: {
-    ...mapActions("ordenes", ["callOrdenes"]),
+    ...mapActions("ordenes", ["callOrdenes", "OlvaEnvio"]),
+    enviarOlva() {
+      const items = JSON.stringify(this.selected);
+      // console.log(cantidad);
+      console.log(this.selected.length);
+      if (this.selected.length > 0) {
+        this.$q
+          .dialog({
+            title: "Confirm",
+            message: "Quieres realizar el envio?",
+            cancel: true,
+            persistent: true
+          })
+          .onOk(() => {
+            console.log("Puede pasar");
+            // this.OlvaEnvio(items);
+          })
+          .onOk(() => {
+            // console.log('>>>> second OK catcher')
+          })
+          .onCancel(() => {
+            // console.log('>>>> Cancel')
+          })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
+      } else {
+        this.$q.notify({
+          message: "Debe selecionar items para enviar",
+          color: "red-8",
+          position: "top-right"
+        });
+      }
+    },
     getByKeyword(list, keyword) {
       const search = keyword.trim().toLowerCase();
       if (!search.length) return list;
