@@ -65,6 +65,12 @@ export default {
           caption: "Listar Productos",
           icon: "code",
           link: "#/productos"
+        },
+        {
+          title: "Olva",
+          caption: "Listar Envios",
+          icon: "code",
+          link: "#/olva"
         }
       ]
     };

@@ -7,6 +7,7 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'ordenes', component: () => import('pages/ordenes/Ordenes.vue') },
       { path: 'productos', component: () => import('pages/productos/Productos.vue') },
+      { path: 'olva', component: () => import('pages/olva/Olva.vue') },
       { path: 'test', component: () => import('pages/TestFilter.vue') },
     ]
   }

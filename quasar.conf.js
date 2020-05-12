@@ -56,7 +56,8 @@ module.exports = function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Loading',
-        'AddressbarColor'
+        'AddressbarColor',
+        'Notify'
       ]
     },
 
