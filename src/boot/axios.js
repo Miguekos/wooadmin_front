@@ -33,8 +33,8 @@ const axiosInstance = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
-  // baseURL: "https://api.apps.com.pe"
-  baseURL : URLs
+  baseURL: "https://api.apps.com.pe"
+  // baseURL : URLs
 });
 
 export default ({ Vue }) => {
