@@ -14,8 +14,9 @@ axios.defaults.withCredentials = true;
 let URLs;
 if (process.env.DEV) {
   // URLs = "http://95.111.235.214:8050"
-  URLs = "http://192.168.0.33:8050"
+  // URLs = "http://192.168.0.33:8050"
   // URLs = "http://192.168.0.32:8050"
+  URLs = "https://api.apps.com.pe"
 }
 
 if (process.env.PRO) {
