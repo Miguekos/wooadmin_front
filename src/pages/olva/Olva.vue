@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-xs">
     <q-table
-      hide-header
       color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
@@ -36,7 +35,7 @@ export default {
   data() {
     return {
       pagination: {
-        sortBy: 'codigoRastreo',
+        sortBy: 'remito',
         descending: false,
         page: 1,
         rowsPerPage: 0
@@ -63,6 +62,12 @@ export default {
           name: "observacion",
           label: "Observacion",
           field: "observacion",
+          sortable: true
+        },
+        {
+          name: "remito",
+          label: "Remito",
+          field: row => row.remito ? row.remito : "No se envio",
           sortable: true
         }
       ],

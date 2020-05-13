@@ -69,7 +69,7 @@ const actions = {
         altoEnvio: 0.0,
         anchoEnvio: 0.0,
         largoEnvio: 0.0,
-        pesoUnitario: 0.0,
+        pesoUnitario: 2.0,
         codContenedor: 2
       };
       // console.log(bodyJsonOlvaa);
