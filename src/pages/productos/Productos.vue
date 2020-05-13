@@ -3,7 +3,10 @@
     <template>
       <div class="q-pa-xs">
         <q-table
-          class="bg-grey-3"
+          class="cursor-pointer"
+          card-class="bg-amber-1 text-brown"
+          table-class="text-grey-8"
+          table-header-class="text-brown"
           dense
           title="Productos"
           :data="data"

@@ -46,7 +46,7 @@
           color="green-6"
           class="full-width"
           @click="enviarOlva()"
-          text-color="black"
+          text-color="white"
           push
           label="enviar"
         />
@@ -56,7 +56,10 @@
       <div class="q-pa-xs">
         <q-table
           dense
-          class="cursor-pointer bg-grey-3"
+          class="cursor-pointer"
+          card-class="bg-amber-1 text-brown"
+          table-class="text-grey-8"
+          table-header-class="text-brown"
           title="Ordenes"
           :data="filteredByAll"
           :columns="columns"

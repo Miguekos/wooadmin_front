@@ -3,9 +3,10 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          flat
           dense
           round
+          glossy
+          color="secondary"
           icon="menu"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"

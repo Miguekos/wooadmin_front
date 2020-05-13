@@ -8,7 +8,7 @@
 export default {
   name: "App",
   created() {
-    this.$q.addressbarColor.set("#1976D2");
+    this.$q.addressbarColor.set("#96588a");
   }
 };
 </script>

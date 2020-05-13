@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-xs">
     <q-table
-      color="primary"
       card-class="bg-amber-1 text-brown"
       table-class="text-grey-8"
       table-header-class="text-brown"
@@ -54,13 +53,13 @@ export default {
         {
           name: "consignado",
           align: "center",
-          label: "Contrgiados",
+          label: "Cliente",
           field: "consignado",
           sortable: true
         },
         {
           name: "observacion",
-          label: "Observacion",
+          label: "Producto",
           field: "observacion",
           sortable: true
         },
