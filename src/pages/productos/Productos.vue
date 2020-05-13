@@ -3,7 +3,7 @@
     <template>
       <div class="q-pa-xs">
         <q-table
-          class="text"
+          class="bg-grey-3"
           dense
           title="Productos"
           :data="data"
@@ -14,7 +14,7 @@
           :pagination.sync="pagination"
         >
           <template v-slot:no-data="{ icon, message, filter }">
-            <div class="full-width row flex-center text-accent q-gutter-sm">
+            <div class="full-width row flex-center text-amber q-gutter-sm">
               <q-icon size="2em" name="sentiment_dissatisfied" />
               <span> Bueno... esto es triste: {{ message }} </span>
               <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
@@ -74,13 +74,7 @@
 
 <script>
 import { axiosInstance } from "boot/axios";
-import {
-  Loading,
-  // optional!, for example below
-  // with custom spinner
-  QSpinnerGears
-} from "quasar";
-
+import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
 export default {
   data() {
     return {
@@ -162,10 +156,10 @@ export default {
     }
   },
   async mounted() {
-    // this.loading = true;
-    Loading.show({
-      spinner: QSpinnerGears
-      // other props
+    await Loading.show({
+      spinner: QSpinnerGears,
+      spinnerColor: "amber-5",
+      spinnerSize: 80
     });
     await this.loadData();
   }

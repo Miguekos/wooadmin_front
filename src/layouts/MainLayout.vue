@@ -21,11 +21,9 @@
       overlay
       content-class="bg-grey-3"
       v-model="leftDrawerOpen"
-      show-if-above
-      bordered
     >
       <q-list>
-        <q-item-label header class="text-grey-8">Menu</q-item-label>
+        <q-item-label header class="text-white text-center bg-primary shadow-4">MENU</q-item-label>
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -57,19 +55,19 @@ export default {
         {
           title: "Ordenes",
           caption: "Listar Ordenes",
-          icon: "school",
+          icon: "view_list",
           link: "#/ordenes"
         },
         {
           title: "Productos",
           caption: "Listar Productos",
-          icon: "code",
+          icon: "blur_circular",
           link: "#/productos"
         },
         {
           title: "Olva",
           caption: "Listar Envios",
-          icon: "code",
+          icon: "markunread",
           link: "#/olva"
         }
       ]

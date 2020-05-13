@@ -233,7 +233,7 @@ export default {
             await Loading.show({
               spinner: QSpinnerBars,
               spinnerColor: "green-5",
-              spinnerSize: 140,
+              spinnerSize: 80,
               // backgroundColor: "purple",
               // message: "Estamos enviando tus pedidos",
               // messageColor: "black"
@@ -310,7 +310,7 @@ export default {
       this.$q.loading.show({
         spinner,
         spinnerColor: "yellow",
-        spinnerSize: 140,
+        spinnerSize: 80,
         backgroundColor: "purple",
         message: "Some important process is in progress. Hang on...",
         messageColor: "black"
@@ -334,7 +334,7 @@ export default {
     await Loading.show({
       spinner: QSpinnerGears,
       spinnerColor: "green-5",
-      spinnerSize: 140
+      spinnerSize: 80
     });
     await this.callOrdenes();
     this.list = this.getOrdenes;
