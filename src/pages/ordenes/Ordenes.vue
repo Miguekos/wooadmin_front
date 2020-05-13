@@ -43,7 +43,7 @@
       </div>
       <div class="col-12 col-md">
         <q-btn
-          color="green-4"
+          color="green-6"
           class="full-width"
           @click="enviarOlva()"
           text-color="black"
@@ -104,7 +104,7 @@
 <script>
 import { axiosInstance } from "boot/axios";
 import { mapGetters, mapActions, mapState } from "vuex";
-import { Loading, QSpinnerGears } from "quasar";
+import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
 export default {
   computed: {
     ...mapGetters("ordenes", ["getOrdenes"]),
@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     ...mapActions("ordenes", ["callOrdenes", "OlvaEnvio"]),
-    enviarOlva() {
+    async enviarOlva() {
       const items = JSON.stringify(this.selected);
       // console.log(cantidad);
       console.log(this.selected.length);
@@ -228,15 +228,34 @@ export default {
             cancel: true,
             persistent: true
           })
-          .onOk(() => {
+          .onOk(async () => {
             console.log("Puede pasar");
-            this.OlvaEnvio(items);
-            this.$q.notify({
-              message: "Enviando...!",
-              color: "green-8",
-              position: "top-right"
+            await Loading.show({
+              spinner: QSpinnerBars,
+              spinnerColor: "green-5",
+              spinnerSize: 140,
+              // backgroundColor: "purple",
+              // message: "Estamos enviando tus pedidos",
+              // messageColor: "black"
             });
-            this.selected = [];
+            const envioOlva = await this.OlvaEnvio(items);
+            if (envioOlva) {
+              this.$q.notify({
+                message: "Pedidos enviados correctamente!",
+                color: "green-8",
+                position: "top-right"
+              });
+              this.selected = [];
+              await Loading.hide()
+            } else {
+              this.$q.notify({
+                message: "Error Controlado!",
+                color: "yellow-8",
+                position: "top-right"
+              });
+              this.selected = [];
+              await Loading.hide()
+            }
           })
           .onOk(() => {
             // console.log('>>>> second OK catcher')
@@ -279,12 +298,43 @@ export default {
       this.inception = true;
       console.log(arg);
       console.log("Preciono");
+    },
+    showLoading() {
+      /* This is for Codepen (using UMD) to work */
+      const spinner =
+        typeof QSpinnerFacebook !== "undefined"
+          ? QSpinnerFacebook // Non-UMD, imported above
+          : Quasar.components.QSpinnerFacebook; // eslint-disable-line
+      /* End of Codepen workaround */
+
+      this.$q.loading.show({
+        spinner,
+        spinnerColor: "yellow",
+        spinnerSize: 140,
+        backgroundColor: "purple",
+        message: "Some important process is in progress. Hang on...",
+        messageColor: "black"
+      });
+
+      // hiding in 3s
+      this.timer = setTimeout(() => {
+        this.$q.loading.hide();
+        this.timer = void 0;
+      }, 3000);
+    }
+  },
+  beforeDestroy() {
+    if (this.timer !== void 0) {
+      clearTimeout(this.timer);
+      this.$q.loading.hide();
     }
   },
   async mounted() {
     // this.loading = true;
     await Loading.show({
-      spinner: QSpinnerGears
+      spinner: QSpinnerGears,
+      spinnerColor: "green-5",
+      spinnerSize: 140
     });
     await this.callOrdenes();
     this.list = this.getOrdenes;
