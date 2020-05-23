@@ -47,7 +47,6 @@
           class="full-width"
           @click="enviarOlva()"
           text-color="white"
-          push
           label="enviar"
         />
       </div>
@@ -57,7 +56,7 @@
         <q-table
           dense
           class="cursor-pointer"
-          card-class="bg-amber-1 text-brown"
+          card-class="bg-grey-1 text-brown"
           table-class="text-grey-8"
           table-header-class="text-brown"
           title="Ordenes"

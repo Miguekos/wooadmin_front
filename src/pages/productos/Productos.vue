@@ -4,7 +4,7 @@
       <div class="q-pa-xs">
         <q-table
           class="cursor-pointer"
-          card-class="bg-amber-1 text-brown"
+          card-class="bg-grey-1 text-brown"
           table-class="text-grey-8"
           table-header-class="text-brown"
           dense
@@ -16,6 +16,24 @@
           :filter="filter"
           :pagination.sync="pagination"
         >
+          <template v-slot:top-right>
+            <div class="q-pr-md">
+              <q-btn
+              color="primary"
+              icon-right="archive"
+              label="Export to csv"
+              no-caps
+              @click="exportTable"
+            />
+            </div>
+            <div class="q-pl-md">
+            <q-input dense v-model="filter" placeholder="Buscar">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+            </div>
+          </template>
           <template v-slot:no-data="{ icon, message, filter }">
             <div class="full-width row flex-center text-amber q-gutter-sm">
               <q-icon size="2em" name="sentiment_dissatisfied" />
@@ -46,13 +64,13 @@
               </q-td>
             </q-tr>
           </template>
-          <template v-slot:top-right>
+          <!-- <template v-slot:top-right>
             <q-input dense v-model="filter" placeholder="Buscar">
               <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
-          </template>
+          </template> -->
         </q-table>
       </div>
     </template>
@@ -76,8 +94,25 @@
 </template>
 
 <script>
+import { exportFile } from "quasar";
 import { axiosInstance } from "boot/axios";
 import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
+function wrapCsvValue(val, formatFn) {
+  let formatted = formatFn !== void 0 ? formatFn(val) : val;
+
+  formatted =
+    formatted === void 0 || formatted === null ? "" : String(formatted);
+
+  formatted = formatted.split('"').join('""');
+  /**
+   * Excel accepts \n and \r in strings, but some other CSV parsers do not
+   * Uncomment the next two lines to escape new lines
+   */
+  // .split('\n').join('\\n')
+  // .split('\r').join('\\r')
+
+  return `"${formatted}"`;
+}
 export default {
   data() {
     return {
@@ -156,6 +191,35 @@ export default {
           //   icon: 'report_problem'
           // })
         });
+    },
+    exportTable() {
+      // naive encoding to csv format
+      const content = [this.columns.map(col => wrapCsvValue(col.label))]
+        .concat(
+          this.data.map(row =>
+            this.columns
+              .map(col =>
+                wrapCsvValue(
+                  typeof col.field === "function"
+                    ? col.field(row)
+                    : row[col.field === void 0 ? col.name : col.field],
+                  col.format
+                )
+              )
+              .join(",")
+          )
+        )
+        .join("\r\n");
+
+      const status = exportFile("productos-export.csv", content, "text/csv");
+
+      if (status !== true) {
+        this.$q.notify({
+          message: "Browser denied file download...",
+          color: "negative",
+          icon: "warning"
+        });
+      }
     }
   },
   async mounted() {
