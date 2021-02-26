@@ -73,7 +73,9 @@ const actions = {
         codContenedor: 2
       };
       // console.log(bodyJsonOlvaa);
-      await actions.mongolva(bodyJsonOlvaa);
+      const response = await axiosInstance.post(`/olva`, bodyJsonOlvaa);
+      console.log("response.data", response.data);
+      // await actions.mongolva(bodyJsonOlvaa);
     }
     console.log("TERMINO");
     return true
@@ -100,7 +102,7 @@ const actions = {
     console.log("Todos los mongolva");
     // commit("setOrdenes", response.data);
     console.log(response.data);
-    // return response.data;
+    return response.data;
   },
   async mongolvaGet({ commit }) {
     console.log("Todos los GET mongolva");
