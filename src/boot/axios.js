@@ -15,8 +15,8 @@ let URLs;
 if (process.env.DEV) {
   // URLs = "http://95.111.235.214:8050"
   // URLs = "http://192.168.0.33:8050"
-  // URLs = "http://192.168.0.32:8050"
-  URLs = "https://api.apps.com.pe"
+  URLs = "http://192.168.1.2:8050";
+  // URLs = "https://api.apps.com.pe"
 }
 
 if (process.env.PRO) {
@@ -33,12 +33,30 @@ const axiosInstance = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
+  baseURL: "http://192.168.18.5:8050"
+  // baseURL: "https://api.apps.com.pe"
+  // baseURL : URLs
+});
+
+const axiosInstanceAPI = axios.create({
+  // paramsSerializer: params => {
+  //   return qs.stringify(params, { arrayFormat: "repeat" });
+  // },
+  // proxy: {login
+  //   host: '127.0.0.1',
+  //   port: 9000
+  // }
+  // baseURL: "http://95.111.235.214:8050"
+  // baseURL: "http://192.168.0.33:8050"
+  // baseURL: "http://192.168.0.32:8050"
+  // baseURL: "http://192.168.1.2:8050"
   baseURL: "https://api.apps.com.pe"
   // baseURL : URLs
 });
+axiosInstanceAPI.defaults.headers.common["token"] = "2bacb1b1bbab2cc23122";
 
 export default ({ Vue }) => {
   Vue.prototype.$axios = axiosInstance;
 };
 
-export { axiosInstance };
+export { axiosInstance, axiosInstanceAPI };

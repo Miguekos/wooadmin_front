@@ -1,4 +1,4 @@
-import { axiosInstance } from "boot/axios";
+import { axiosInstance, axiosInstanceAPI } from "boot/axios";
 
 const state = {
   Ordenes: [],
@@ -21,6 +21,45 @@ const mutations = {
 };
 
 const actions = {
+  async call_realizar_envio({ commit }, payload) {
+    console.log("Todos los ordenes");
+    const array = JSON.parse(payload);
+    console.log(array);
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      console.log(element);
+      const enviar = {
+        name: element.billing.first_name,
+        lastname: element.billing.last_name,
+        comuna: "SANTIAGO",
+        direccion: element.billing.address_1,
+        telf: element.billing.phone,
+        tipodepago: "Pagado",
+        control: "",
+        valordeflete: "0",
+        proveedores: "SOKO BOX",
+        user_registrante: "SOKO BOX",
+        responsable: 999999999
+      };
+      const response = await axiosInstanceAPI.post(
+        `/devenvios/registros`,
+        enviar
+      );
+    }
+
+    // console.log("data", data);
+
+    // const response = await axiosInstanceAPI.post(
+    //   `/devenvios/registros`,
+    //   payload
+    // );
+    // console.log("Todos los ordenes");
+    // // commit("setOrdenes", response.data);
+    return {
+      result: "Se envio  correctamente"
+    };
+  },
+
   async callOrdenes({ commit }) {
     console.log("Todos los ordenes");
     const response = await axiosInstance.get(`/ordenes/100`);
@@ -31,7 +70,7 @@ const actions = {
   async OlvaEnvio({ commit }, payload) {
     console.log("Todos los ordenes");
     // console.log(enviarOlva(payload));
-    const array = JSON.parse(payload)
+    const array = JSON.parse(payload);
     // console.log("payload", payload);
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
@@ -58,7 +97,8 @@ const actions = {
         rucSeller: "20600721021",
         ubigeoSeller: "150141",
         seller: "TUT LOGISTIC PERU S.A.C.",
-        direccionSeller: "CALLE ANDREA DEL SARTO 247 URBANIZACIÓN CALERA DE LAMERCED - SURQUILLO",
+        direccionSeller:
+          "CALLE ANDREA DEL SARTO 247 URBANIZACIÓN CALERA DE LAMERCED - SURQUILLO",
         contacto: "VICTOR RICARDO ITURBE CABANILLAS",
         telefono: "013379842 / 989415253",
         codClienteRucDni: "20600721021",
@@ -78,7 +118,7 @@ const actions = {
       // await actions.mongolva(bodyJsonOlvaa);
     }
     console.log("TERMINO");
-    return true
+    return true;
 
     // const response = await axiosInstance.post(`/olva`, enviarOlva(payload));
     // console.log("Todos los ordenes");
@@ -97,7 +137,7 @@ const actions = {
     const guardarMongo = {
       ...responseOlva.data,
       ...payload
-    }
+    };
     const response = await axiosInstance.post(`/mongolva`, guardarMongo);
     console.log("Todos los mongolva");
     // commit("setOrdenes", response.data);

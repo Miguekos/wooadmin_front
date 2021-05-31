@@ -45,7 +45,7 @@
         <q-btn
           color="green-6"
           class="full-width"
-          @click="enviarOlva()"
+          @click="realizar_envio()"
           text-color="white"
           label="enviar"
         />
@@ -143,7 +143,7 @@ export default {
     },
     payment_method_title_unique() {
       return [...new Set(this.payment_method_title)];
-    }
+    },
   },
   data() {
     return {
@@ -163,7 +163,7 @@ export default {
         sortBy: "id_pedido",
         descending: true,
         page: 1,
-        rowsPerPage: 17
+        rowsPerPage: 17,
         // rowsNumber: xx if getting data from a server
       },
       columns: [
@@ -172,53 +172,57 @@ export default {
           required: true,
           label: "Nombre",
           align: "left",
-          field: row => row.billing.first_name,
-          format: val => `${val}`,
-          sortable: true
+          field: (row) => row.billing.first_name,
+          format: (val) => `${val}`,
+          sortable: true,
         },
         {
           name: "id_pedido",
           align: "center",
           label: "ID Pedidio",
           field: "id",
-          sortable: true
+          sortable: true,
         },
         {
           name: "payment_method",
           align: "center",
           label: "Metodo Pago",
           field: "payment_method",
-          sortable: true
+          sortable: true,
         },
         {
           name: "payment_method_title",
           label: "Tipo Metodo",
           field: "payment_method_title",
-          sortable: true
+          sortable: true,
         },
         {
           name: "shipping_address_1",
           label: "Direccion Envio",
-          field: row => row.shipping.address_1
+          field: (row) => row.shipping.address_1,
         },
-        { name: "city", label: "Ciudad", field: row => row.shipping.city },
+        { name: "city", label: "Ciudad", field: (row) => row.shipping.city },
         {
           name: "shipping_total",
           label: "Costo de Envio",
-          field: row => row.shipping_total
-        }
+          field: (row) => row.shipping_total,
+        },
       ],
-      list: []
+      list: [],
     };
   },
   components: {
     Detalle: () => import("components/DetalleOrdenes"),
     Search: () => import("components/Search"),
-    SearchNew: () => import("components/SearchNew")
+    SearchNew: () => import("components/SearchNew"),
   },
   methods: {
-    ...mapActions("ordenes", ["callOrdenes", "OlvaEnvio"]),
-    async enviarOlva() {
+    ...mapActions("ordenes", [
+      "callOrdenes",
+      "OlvaEnvio",
+      "call_realizar_envio",
+    ]),
+    async realizar_envio() {
       const items = JSON.stringify(this.selected);
       // console.log(cantidad);
       console.log(this.selected.length);
@@ -228,7 +232,7 @@ export default {
             title: "Confirm",
             message: "Quieres realizar el envio?",
             cancel: true,
-            persistent: true
+            persistent: true,
           })
           .onOk(async () => {
             console.log("Puede pasar");
@@ -240,23 +244,24 @@ export default {
               // message: "Estamos enviando tus pedidos",
               // messageColor: "black"
             });
-            const envioOlva = await this.OlvaEnvio(items);
+            // console.log("items", items);
+            const envioOlva = await this.call_realizar_envio(items);
             if (envioOlva) {
               this.$q.notify({
                 message: "Pedidos enviados correctamente!",
                 color: "green-8",
-                position: "top-right"
+                position: "top-right",
               });
               this.selected = [];
-              await Loading.hide()
+              await Loading.hide();
             } else {
               this.$q.notify({
                 message: "Error Controlado!",
                 color: "yellow-8",
-                position: "top-right"
+                position: "top-right",
               });
               this.selected = [];
-              await Loading.hide()
+              await Loading.hide();
             }
           })
           .onOk(() => {
@@ -272,7 +277,7 @@ export default {
         this.$q.notify({
           message: "Debe selecionar items para enviar",
           color: "red-8",
-          position: "top-right"
+          position: "top-right",
         });
       }
     },
@@ -280,20 +285,20 @@ export default {
       const search = keyword.trim().toLowerCase();
       if (!search.length) return list;
       return list.filter(
-        item => item.billing.first_name.toLowerCase().indexOf(search) > -1
+        (item) => item.billing.first_name.toLowerCase().indexOf(search) > -1
       );
     },
     getByStatus(list, status) {
       if (!status) return list;
-      return list.filter(item => item.status === status);
+      return list.filter((item) => item.status === status);
     },
     getByCity(list, city) {
       if (!city) return list;
-      return list.filter(item => item.shipping.city === city);
+      return list.filter((item) => item.shipping.city === city);
     },
     getByPayment_method_title(list, paymentmt) {
       if (!paymentmt) return list;
-      return list.filter(item => item.payment_method_title === paymentmt);
+      return list.filter((item) => item.payment_method_title === paymentmt);
     },
     detalleCliente(arg) {
       this.detalleInfo = arg;
@@ -315,7 +320,7 @@ export default {
         spinnerSize: 80,
         backgroundColor: "purple",
         message: "Some important process is in progress. Hang on...",
-        messageColor: "black"
+        messageColor: "black",
       });
 
       // hiding in 3s
@@ -323,7 +328,7 @@ export default {
         this.$q.loading.hide();
         this.timer = void 0;
       }, 3000);
-    }
+    },
   },
   beforeDestroy() {
     if (this.timer !== void 0) {
@@ -336,7 +341,7 @@ export default {
     await Loading.show({
       spinner: QSpinnerGears,
       spinnerColor: "green-5",
-      spinnerSize: 80
+      spinnerSize: 80,
     });
     await this.callOrdenes();
     this.list = this.getOrdenes;
@@ -349,6 +354,6 @@ export default {
     //   this.payment_method_title.push(element.payment_method_title);
     // }
     await Loading.hide();
-  }
+  },
 };
 </script>
