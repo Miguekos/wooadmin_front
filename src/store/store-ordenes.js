@@ -17,6 +17,9 @@ const mutations = {
     },
     getOlva(state, payload) {
         state.getOlva = payload;
+    },
+    SetEstado(state, payload) {
+        state.Ordenes[payload.id].tipodepago = payload.estado;
     }
 };
 
@@ -28,14 +31,14 @@ const actions = {
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             console.log("element.envio", element);
-            if (!element.enviado) {
+            if (!element.enviado && element.tipodepago !== '') {
                 const enviar = {
                     name: element.billing.first_name,
                     lastname: element.billing.last_name,
                     comuna: element.billing.city,
                     direccion: element.billing.address_1,
                     telf: element.billing.phone,
-                    tipodepago: "Pagado",
+                    tipodepago: element.tipodepago,
                     control: "",
                     estado: "7",
                     valordeflete: "0",

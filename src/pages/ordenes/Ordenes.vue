@@ -78,6 +78,37 @@
           <!--              {{ props.value }}-->
           <!--            </q-td>-->
           <!--          </template>-->
+          <template v-slot:body-cell-tipodepago="props">
+            <q-td :props="props">
+              <q-btn
+                  v-if="props.row.tipodepago === 'Pagado'"
+                  color="info"
+                  size="sm"
+                  rounded
+                  @click="tipoDePago(props.row, 'Por Pagar')"
+              >
+                {{ props.row.tipodepago }}
+              </q-btn>
+              <q-btn
+                  v-else-if="props.row.tipodepago === 'Por Pagar'"
+                  color="green"
+                  size="sm"
+                  rounded
+                  @click="tipoDePago(props.row, '')"
+              >
+                {{ props.row.tipodepago }}
+              </q-btn>
+              <q-btn
+                  v-else-if="props.row.tipodepago === ''"
+                  color="black"
+                  size="sm"
+                  rounded
+                  @click="tipoDePago(props.row, 'Pagado')"
+              >
+                Ninguno
+              </q-btn>
+            </q-td>
+          </template>
           <template v-slot:body-cell-id_pedido="props">
             <q-td :props="props">
               <q-btn
@@ -125,19 +156,19 @@
     <q-dialog v-model="inception">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Detalle del Pedido {{detalleInfo.id}}</div>
+          <div class="text-h6">Detalle del Pedido {{ detalleInfo.id }}</div>
         </q-card-section>
 
         <q-separator/>
 
         <q-card-section style="max-height: 50vh" class="scroll">
-          <Detalle :info="detalleInfo.line_items" />
+          <Detalle :info="detalleInfo.line_items"/>
         </q-card-section>
 
         <q-separator/>
 
         <q-card-actions align="right">
-<!--          <q-btn flat label="Decline" color="primary" v-close-popup/>-->
+          <!--          <q-btn flat label="Decline" color="primary" v-close-popup/>-->
           <q-btn flat label="Cerrar" color="primary" v-close-popup/>
         </q-card-actions>
       </q-card>
@@ -213,6 +244,7 @@ export default {
         rowsPerPage: 200
         // rowsNumber: xx if getting data from a server
       },
+      tipoDePagobool: false,
       selected: [],
       city: [],
       citys: "",
@@ -264,6 +296,12 @@ export default {
           sortable: true
         },
         {
+          name: "tipodepago",
+          label: "Tipo Metodo",
+          field: "tipodepago",
+          sortable: true
+        },
+        {
           name: "shipping_address_1",
           label: "Direccion Envio",
           field: row => row.billing.address_1
@@ -304,6 +342,20 @@ export default {
       "OlvaEnvio",
       "call_realizar_envio"
     ]),
+    tipoDePago(obj, e) {
+      // console.log("tipoDePago->",e)
+      const item = obj
+      const foundIndex = this.list.findIndex(x => x.id == item.id);
+      // items[foundIndex] = item;
+      // console.log(foundIndex)
+      // console.log(this.list[foundIndex])
+      // this.list[foundIndex].tipodepago = e
+      // console.log(this.list[foundIndex])
+      this.$store.commit('ordenes/SetEstado', {
+        id: foundIndex,
+        estado: e
+      })
+    },
     getSelectedString() {
       return this.selected.length === 0
           ? ""
@@ -337,14 +389,14 @@ export default {
               const envioOlva = await this.call_realizar_envio(items);
               if (envioOlva) {
                 this.$q.notify({
-                  message: "Pedidos enviados correctamente!",
+                  message: "Proceso Correcto!",
                   color: "green-8",
                   position: "top-right"
                 });
                 this.selected = [];
                 await this.callOrdenes({
                   page: 2,
-                  cant: 100
+                  cant: 20
                 });
                 this.list = this.getOrdenes;
                 await Loading.hide();
@@ -439,7 +491,7 @@ export default {
     });
     await this.callOrdenes({
       page: 2,
-      cant: 100
+      cant: 20
     });
     this.list = this.getOrdenes;
     // const array = this.getOrdenes;
