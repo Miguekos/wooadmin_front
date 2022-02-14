@@ -396,7 +396,7 @@ export default {
                 this.selected = [];
                 await this.callOrdenes({
                   page: 2,
-                  cant: 20
+                  cant: 100
                 });
                 this.list = this.getOrdenes;
                 await Loading.hide();
@@ -491,7 +491,7 @@ export default {
     });
     await this.callOrdenes({
       page: 2,
-      cant: 20
+      cant: 100
     });
     this.list = this.getOrdenes;
     // const array = this.getOrdenes;
