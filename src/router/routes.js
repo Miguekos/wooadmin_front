@@ -8,7 +8,7 @@ const routes = [
       { path: 'ordenes', component: () => import('pages/ordenes/Ordenes.vue') },
       { path: 'detalle', component: () => import('pages/ordenes/DetalleOrdenes.vue') },
       { path: 'productos', component: () => import('pages/productos/Productos.vue') },
-      { path: 'olva', component: () => import('pages/olva/Olva.vue') },
+      { path: 'texcargo', component: () => import('pages/olva/Olva.vue') },
       { path: 'test', component: () => import('pages/TestFilter.vue') },
     ]
   }

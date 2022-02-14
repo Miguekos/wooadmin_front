@@ -11,8 +11,10 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-toolbar-title>Woo Admin</q-toolbar-title>
-        <div>V{{ $q.version }}</div>
+        <q-toolbar-title class="text-accent"
+          >Rapunzel <b class="text-positive">Admin Panel</b></q-toolbar-title
+        >
+        <div class="text-positive">V{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -57,18 +59,18 @@
           :key="link.title"
           v-bind="link"
         />
-        <q-item clickable tag="a" @click="Logout()">
-          <q-item-section avatar>
-            <q-icon name="logout" />
-          </q-item-section>
+        <!--        <q-item clickable tag="a" @click="Logout()">-->
+        <!--          <q-item-section avatar>-->
+        <!--            <q-icon name="logout" />-->
+        <!--          </q-item-section>-->
 
-          <q-item-section>
-            <q-item-label>Salir</q-item-label>
-            <q-item-label caption>
-              Cerar Session
-            </q-item-label>
-          </q-item-section>
-        </q-item>
+        <!--          <q-item-section>-->
+        <!--            <q-item-label>Salir</q-item-label>-->
+        <!--            <q-item-label caption>-->
+        <!--              Cerar Session-->
+        <!--            </q-item-label>-->
+        <!--          </q-item-section>-->
+        <!--        </q-item>-->
       </q-list>
     </q-drawer>
 
@@ -105,17 +107,17 @@ export default {
           link: "#/productos"
         },
         {
-          title: "Olva",
+          title: "TexCargo",
           caption: "Listar Envios",
           icon: "markunread",
-          link: "#/olva"
-        },
-        {
-          title: "Detalle Ordenes",
-          caption: "Detalle Ordenes",
-          icon: "table_chart",
-          link: "#/detalle"
+          link: "#/texcargo"
         }
+        // {
+        //   title: "Detalle Ordenes",
+        //   caption: "Detalle Ordenes",
+        //   icon: "table_chart",
+        //   link: "#/detalle"
+        // }
       ]
     };
   }

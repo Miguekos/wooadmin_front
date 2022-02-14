@@ -2,7 +2,7 @@
   "name": "wooadmin_front",
   "version": "0.0.1",
   "description": "Admininstador Woocommerce",
-  "productName": "Woo Admin",
+  "productName": "Rapunzel Admin Panel",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Miguel Rodriguez <miguekos1233@gmail.com>",

@@ -2,8 +2,10 @@
 version: "2"
 services:
   www:
-    image: quasarwoo:1.3
+    image: front-wooadmin:1.0
     restart: always
+    depends_on:
+      - app
     expose:
       - "80"
     # volumes:
@@ -12,7 +14,18 @@ services:
     environment:
       - VIRTUAL_HOST=wooadmin.apps.com.pe,www.wooadmin.apps.com.pe
       - LETSENCRYPT_HOST=wooadmin.apps.com.pe,www.wooadmin.apps.com.pe
-      - LETSENCRYPT_EMAIL=kevin.silva.095@gmail.com
+      - LETSENCRYPT_EMAIL=miguekos1233@gmail.com
+
+  app:
+    container_name: api-wooadmin
+    image: api-wooadmin:1.0
+    # build: .
+    command: python3 -u main.py
+    # volumes:
+    #   - ./:/code/
+    ports:
+      - "8050:8050"
+
 networks:
   default:
     external:
