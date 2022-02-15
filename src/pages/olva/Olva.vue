@@ -191,7 +191,7 @@ export default {
           var url = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = url;
-          a.download = `${e.registro.registro}.pdf`;
+          a.download = `${e}.pdf`;
           a.click();
           a.remove();
           setTimeout(() => window.URL.revokeObjectURL(url), 100);
