@@ -35,8 +35,8 @@ const axiosInstancePdfs = axios.create({
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
   // baseURL: "http://192.168.18.5:8050"
-  // baseURL: "http://192.168.18.5:4545"
-  baseURL: "https://api.apps.com.pe"
+  baseURL: "http://192.168.18.5:4545"
+  // baseURL: "https://api.apps.com.pe"
   // baseURL : URLs
 });
 
@@ -52,8 +52,8 @@ const axiosInstance = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
-  // baseURL: "http://192.168.18.5:8050"
-  baseURL: "https://api.apps.com.pe"
+  baseURL: "http://192.168.18.5:8050"
+  // baseURL: "https://api.apps.com.pe"
   // baseURL : URLs
 });
 // TexCargo

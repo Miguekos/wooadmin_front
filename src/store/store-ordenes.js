@@ -31,7 +31,7 @@ const actions = {
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             console.log("element.envio", element);
-            if (!element.enviado && element.tipodepago !== '') {
+            if (!element.enviado && element.tipodepago !== '' && element.billing.porcentaje > 88) {
                 const enviar = {
                     name: element.billing.first_name,
                     lastname: element.billing.last_name,
@@ -62,6 +62,15 @@ const actions = {
                     guardarMongo
                 );
                 console.log(response_mongo);
+                return {
+                    codRes: "00",
+                    result: "Se envio  correctamente"
+                };
+            } else {
+                return {
+                    codRes: "01",
+                    result: "Se envio  correctamente"
+                };
             }
         }
 
@@ -73,9 +82,6 @@ const actions = {
         // );
         // console.log("Todos los ordenes");
         // // commit("setOrdenes", response.data);
-        return {
-            result: "Se envio  correctamente"
-        };
     },
 
     async callOrdenes({commit}, payload) {

@@ -281,24 +281,31 @@ export default {
           field: "id",
           sortable: true
         },
-        { name: "enviado", label: "Estado", field: row => row.enviado },
-        // {
-        //   name: "payment_method",
-        //   align: "center",
-        //   label: "Metodo Pago",
-        //   field: "payment_method",
-        //   sortable: true,
-        // },
+        {
+          name: "enviado",
+          align: "right",
+          label: "Estado",
+          field: row => row.enviado
+        },
         {
           name: "payment_method_title",
           label: "Tipo Metodo",
           field: "payment_method_title",
+          align: "right",
           sortable: true
         },
         {
           name: "tipodepago",
-          label: "Tipo Metodo",
+          label: "Tipo Envio",
           field: "tipodepago",
+          align: "right",
+          sortable: true
+        },
+        {
+          name: "precio",
+          label: "Precio",
+          field: row => row.precio,
+          align: "right",
           sortable: true
         },
         {
@@ -376,7 +383,7 @@ export default {
             persistent: true
           })
           .onOk(async () => {
-            console.log("Puede pasar");
+            // console.log("Puede pasar");
             await Loading.show({
               spinner: QSpinnerBars,
               spinnerColor: "green-5",
@@ -387,7 +394,8 @@ export default {
             });
             // console.log("items", items);
             const envioOlva = await this.call_realizar_envio(items);
-            if (envioOlva) {
+            console.log("envioOlva->", envioOlva);
+            if (envioOlva.codRes === "00") {
               this.$q.notify({
                 message: "Proceso Correcto!",
                 color: "green-8",
@@ -396,9 +404,17 @@ export default {
               this.selected = [];
               await this.callOrdenes({
                 page: 2,
-                cant: 100
+                cant: 2
               });
               this.list = this.getOrdenes;
+              await Loading.hide();
+            } else if (envioOlva.codRes === "01") {
+              this.$q.notify({
+                message: "Verifica comuna ó estado Tipo de envios!",
+                color: "blue-8",
+                position: "top-right"
+              });
+              this.selected = [];
               await Loading.hide();
             } else {
               this.$q.notify({
@@ -491,7 +507,7 @@ export default {
     });
     await this.callOrdenes({
       page: 2,
-      cant: 100
+      cant: 2
     });
     this.list = this.getOrdenes;
     // const array = this.getOrdenes;
