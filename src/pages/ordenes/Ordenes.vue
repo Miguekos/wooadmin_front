@@ -3,75 +3,75 @@
     {{ filtrosNuevos }}
     <div class="row q-gutter-xs q-pa-xs">
       <div class="col-12 col-md">
-        <q-input dense filled v-model="keyword" label="Buscar por nombre"/>
+        <q-input dense filled v-model="keyword" label="Buscar por nombre" />
       </div>
       <div class="col-12 col-md">
         <q-select
-            color="orange-10"
-            filled
-            clearable
-            dense
-            v-model="citys"
-            :options="city_unique"
-            label="Ciudades"
+          color="orange-10"
+          filled
+          clearable
+          dense
+          v-model="citys"
+          :options="city_unique"
+          label="Ciudades"
         >
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
-            color="green-10"
-            filled
-            clearable
-            dense
-            v-model="statuss"
-            :options="status_unique"
-            label="Estados"
+          color="green-10"
+          filled
+          clearable
+          dense
+          v-model="statuss"
+          :options="status_unique"
+          label="Estados"
         >
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-select
-            color="indigo-10"
-            filled
-            clearable
-            dense
-            v-model="payment_method_titles"
-            :options="payment_method_title_unique"
-            label="Metodos de Pago"
+          color="indigo-10"
+          filled
+          clearable
+          dense
+          v-model="payment_method_titles"
+          :options="payment_method_title_unique"
+          label="Metodos de Pago"
         >
         </q-select>
       </div>
       <div class="col-12 col-md">
         <q-btn
-            color="green-6"
-            class="full-width"
-            @click="realizar_envio()"
-            text-color="white"
-            label="enviar"
+          color="green-6"
+          class="full-width"
+          @click="realizar_envio()"
+          text-color="white"
+          label="enviar"
         />
       </div>
     </div>
     <template>
       <div class="q-pa-xs">
         <q-table
-            dense
-            class="my-sticky-header-table"
-            color="primary"
-            card-class="bg-amber-1 text-brown"
-            table-class="text-grey-8"
-            table-header-class="text-brown"
-            flat
-            virtual-scroll
-            :pagination="initialPagination"
-            rows-per-page-label=" "
-            title="Ordenes"
-            :data="filteredByAll"
-            :columns="columns"
-            row-key="id"
-            :loading="loading"
-            :filter="filter"
-            selection="multiple"
-            :selected.sync="selected"
+          dense
+          class="my-sticky-header-table"
+          color="primary"
+          card-class="bg-amber-1 text-brown"
+          table-class="text-grey-8"
+          table-header-class="text-brown"
+          flat
+          virtual-scroll
+          :pagination="initialPagination"
+          rows-per-page-label=" "
+          title="Ordenes"
+          :data="filteredByAll"
+          :columns="columns"
+          row-key="id"
+          :loading="loading"
+          :filter="filter"
+          selection="multiple"
+          :selected.sync="selected"
         >
           <!--          <template v-slot:body-cell="props">-->
           <!--            <q-td @click="detalleCliente(props.row.line_items)" :props="props">-->
@@ -81,29 +81,29 @@
           <template v-slot:body-cell-tipodepago="props">
             <q-td :props="props">
               <q-btn
-                  v-if="props.row.tipodepago === 'Pagado'"
-                  color="info"
-                  size="sm"
-                  rounded
-                  @click="tipoDePago(props.row, 'Por Pagar')"
+                v-if="props.row.tipodepago === 'Pagado'"
+                color="info"
+                size="sm"
+                rounded
+                @click="tipoDePago(props.row, 'Por Pagar')"
               >
                 {{ props.row.tipodepago }}
               </q-btn>
               <q-btn
-                  v-else-if="props.row.tipodepago === 'Por Pagar'"
-                  color="green"
-                  size="sm"
-                  rounded
-                  @click="tipoDePago(props.row, '')"
+                v-else-if="props.row.tipodepago === 'Por Pagar'"
+                color="green"
+                size="sm"
+                rounded
+                @click="tipoDePago(props.row, '')"
               >
                 {{ props.row.tipodepago }}
               </q-btn>
               <q-btn
-                  v-else-if="props.row.tipodepago === ''"
-                  color="black"
-                  size="sm"
-                  rounded
-                  @click="tipoDePago(props.row, 'Pagado')"
+                v-else-if="props.row.tipodepago === ''"
+                color="black"
+                size="sm"
+                rounded
+                @click="tipoDePago(props.row, 'Pagado')"
               >
                 Ninguno
               </q-btn>
@@ -112,10 +112,10 @@
           <template v-slot:body-cell-id_pedido="props">
             <q-td :props="props">
               <q-btn
-                  color="orange"
-                  size="sm"
-                  rounded
-                  @click="detalleCliente(props.row)"
+                color="orange"
+                size="sm"
+                rounded
+                @click="detalleCliente(props.row)"
               >
                 {{ props.value }}
               </q-btn>
@@ -145,9 +145,9 @@
           </template>
           <template v-slot:no-data="{ icon, message, filter }">
             <div class="full-width row flex-center text-green-7 q-gutter-sm">
-              <q-icon size="2em" name="sentiment_dissatisfied"/>
+              <q-icon size="2em" name="sentiment_dissatisfied" />
               <span> Bueno... esto es triste: {{ message }} </span>
-              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon"/>
+              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
             </div>
           </template>
         </q-table>
@@ -159,17 +159,17 @@
           <div class="text-h6">Detalle del Pedido {{ detalleInfo.id }}</div>
         </q-card-section>
 
-        <q-separator/>
+        <q-separator />
 
         <q-card-section style="max-height: 50vh" class="scroll">
-          <Detalle :info="detalleInfo.line_items"/>
+          <Detalle :info="detalleInfo.line_items" />
         </q-card-section>
 
-        <q-separator/>
+        <q-separator />
 
         <q-card-actions align="right">
           <!--          <q-btn flat label="Decline" color="primary" v-close-popup/>-->
-          <q-btn flat label="Cerrar" color="primary" v-close-popup/>
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -193,9 +193,9 @@
 </template>
 
 <script>
-import {axiosInstance} from "boot/axios";
-import {mapGetters, mapActions, mapState} from "vuex";
-import {Loading, QSpinnerGears, QSpinnerBars} from "quasar";
+import { axiosInstance } from "boot/axios";
+import { mapGetters, mapActions, mapState } from "vuex";
+import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
 
 export default {
   computed: {
@@ -216,12 +216,12 @@ export default {
     },
     filteredByAll() {
       const keyw = this.getByKeyword(this.list, this.keyword),
-          stat = this.getByStatus(keyw, this.statuss),
-          cunt = this.getByCity(stat, this.citys),
-          metPago = this.getByPayment_method_title(
-              cunt,
-              this.payment_method_titles
-          );
+        stat = this.getByStatus(keyw, this.statuss),
+        cunt = this.getByCity(stat, this.citys),
+        metPago = this.getByPayment_method_title(
+          cunt,
+          this.payment_method_titles
+        );
       return metPago;
     },
     status_unique() {
@@ -281,7 +281,7 @@ export default {
           field: "id",
           sortable: true
         },
-        {name: "enviado", label: "Estado", field: row => row.enviado},
+        { name: "enviado", label: "Estado", field: row => row.enviado },
         // {
         //   name: "payment_method",
         //   align: "center",
@@ -306,7 +306,7 @@ export default {
           label: "Direccion Envio",
           field: row => row.billing.address_1
         },
-        {name: "city", label: "Ciudad", field: row => row.billing.city},
+        { name: "city", label: "Ciudad", field: row => row.billing.city },
         {
           name: "city_ori",
           label: "Ciudad Ori",
@@ -344,23 +344,23 @@ export default {
     ]),
     tipoDePago(obj, e) {
       // console.log("tipoDePago->",e)
-      const item = obj
+      const item = obj;
       const foundIndex = this.list.findIndex(x => x.id == item.id);
       // items[foundIndex] = item;
       // console.log(foundIndex)
       // console.log(this.list[foundIndex])
       // this.list[foundIndex].tipodepago = e
       // console.log(this.list[foundIndex])
-      this.$store.commit('ordenes/SetEstado', {
+      this.$store.commit("ordenes/SetEstado", {
         id: foundIndex,
         estado: e
-      })
+      });
     },
     getSelectedString() {
       return this.selected.length === 0
-          ? ""
-          : `${this.selected.length} record${
-              this.selected.length > 1 ? "s" : ""
+        ? ""
+        : `${this.selected.length} record${
+            this.selected.length > 1 ? "s" : ""
           } selected of ${this.data.length}`;
     },
     async realizar_envio() {
@@ -369,56 +369,56 @@ export default {
       console.log(this.selected.length);
       if (this.selected.length > 0) {
         this.$q
-            .dialog({
-              title: "Confirm",
-              message: "Quieres realizar el envio?",
-              cancel: true,
-              persistent: true
-            })
-            .onOk(async () => {
-              console.log("Puede pasar");
-              await Loading.show({
-                spinner: QSpinnerBars,
-                spinnerColor: "green-5",
-                spinnerSize: 80
-                // backgroundColor: "purple",
-                // message: "Estamos enviando tus pedidos",
-                // messageColor: "black"
-              });
-              // console.log("items", items);
-              const envioOlva = await this.call_realizar_envio(items);
-              if (envioOlva) {
-                this.$q.notify({
-                  message: "Proceso Correcto!",
-                  color: "green-8",
-                  position: "top-right"
-                });
-                this.selected = [];
-                await this.callOrdenes({
-                  page: 2,
-                  cant: 100
-                });
-                this.list = this.getOrdenes;
-                await Loading.hide();
-              } else {
-                this.$q.notify({
-                  message: "Error Controlado!",
-                  color: "yellow-8",
-                  position: "top-right"
-                });
-                this.selected = [];
-                await Loading.hide();
-              }
-            })
-            .onOk(() => {
-              // console.log('>>>> second OK catcher')
-            })
-            .onCancel(() => {
-              // console.log('>>>> Cancel')
-            })
-            .onDismiss(() => {
-              // console.log('I am triggered on both OK and Cancel')
+          .dialog({
+            title: "Confirm",
+            message: "Quieres realizar el envio?",
+            cancel: true,
+            persistent: true
+          })
+          .onOk(async () => {
+            console.log("Puede pasar");
+            await Loading.show({
+              spinner: QSpinnerBars,
+              spinnerColor: "green-5",
+              spinnerSize: 80
+              // backgroundColor: "purple",
+              // message: "Estamos enviando tus pedidos",
+              // messageColor: "black"
             });
+            // console.log("items", items);
+            const envioOlva = await this.call_realizar_envio(items);
+            if (envioOlva) {
+              this.$q.notify({
+                message: "Proceso Correcto!",
+                color: "green-8",
+                position: "top-right"
+              });
+              this.selected = [];
+              await this.callOrdenes({
+                page: 2,
+                cant: 100
+              });
+              this.list = this.getOrdenes;
+              await Loading.hide();
+            } else {
+              this.$q.notify({
+                message: "Error Controlado!",
+                color: "yellow-8",
+                position: "top-right"
+              });
+              this.selected = [];
+              await Loading.hide();
+            }
+          })
+          .onOk(() => {
+            // console.log('>>>> second OK catcher')
+          })
+          .onCancel(() => {
+            // console.log('>>>> Cancel')
+          })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
       } else {
         this.$q.notify({
           message: "Debe selecionar items para enviar",
@@ -431,7 +431,7 @@ export default {
       const search = keyword.trim().toLowerCase();
       if (!search.length) return list;
       return list.filter(
-          item => item.billing.first_name.toLowerCase().indexOf(search) > -1
+        item => item.billing.first_name.toLowerCase().indexOf(search) > -1
       );
     },
     getByStatus(list, status) {
@@ -455,9 +455,9 @@ export default {
     showLoading() {
       /* This is for Codepen (using UMD) to work */
       const spinner =
-          typeof QSpinnerFacebook !== "undefined"
-              ? QSpinnerFacebook // Non-UMD, imported above
-              : Quasar.components.QSpinnerFacebook; // eslint-disable-line
+        typeof QSpinnerFacebook !== "undefined"
+          ? QSpinnerFacebook // Non-UMD, imported above
+          : Quasar.components.QSpinnerFacebook; // eslint-disable-line
       /* End of Codepen workaround */
 
       this.$q.loading.show({

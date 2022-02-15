@@ -1,4 +1,4 @@
-import {axiosInstance, axiosInstanceAPI} from "boot/axios";
+import {axiosInstance, axiosInstanceAPI, axiosInstancePdfs} from "boot/axios";
 
 const state = {
     Ordenes: [],
@@ -168,6 +168,13 @@ const actions = {
         console.log("Todos los GET mongolva");
         commit("getOlva", response.data);
         // return response.data;
+    },
+    async get_generarpdfs({commit}, payload) {
+        // console.log("Todos los GET mongolva");
+        const response = await axiosInstancePdfs.post(`/fileserver/imprimirticketpdfarray/2`, payload);
+        console.log("generando pdfs->", response.data);
+        // commit("getOlva", response.data);
+        return response.data;
     },
     setSearch({commit}, payload) {
         commit("setSearch", payload);

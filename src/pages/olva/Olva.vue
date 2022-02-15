@@ -13,10 +13,18 @@
       title="Envios TexCargo"
       :data="getOlva"
       :columns="columns"
-      row-key="registro"
+      row-key="id"
       :pagination.sync="initialPagination"
+      selection="multiple"
+      :selected.sync="selected"
     >
       <template v-slot:top-right>
+        <q-btn
+          color="primary"
+          label="generar impresion"
+          class="text-black q-mr-sm"
+          @click="generandopdfs()"
+        ></q-btn>
         <q-input
           dense
           filled
@@ -38,13 +46,13 @@
       </template>
       <template v-slot:body-cell-ticket="props">
         <q-td :props="props">
-          <q-btn
-            rounded
-            size="xs"
-            color="blue"
-            @click="descargar(props.row)"
-            label="descargar"
-          ></q-btn>
+          <!--          <q-btn-->
+          <!--            rounded-->
+          <!--            size="xs"-->
+          <!--            color="blue"-->
+          <!--            @click="generandopdfs(props.row)"-->
+          <!--            label="descargar"-->
+          <!--          ></q-btn>-->
           <!--          <div>-->
           <!--            <q-badge color="purple" :label="props.value" />-->
           <!--          </div>-->
@@ -56,7 +64,7 @@
       <template v-slot:body-cell-producto="props">
         <q-td :props="props">
           <div v-for="(items, index) in props.row[0].line_items" :key="index">
-            {{ index + 1}}.- {{ items.name }}
+            {{ index + 1 }}.- {{ items.name }}
           </div>
         </q-td>
       </template>
@@ -74,6 +82,7 @@ export default {
   },
   data() {
     return {
+      selected: [],
       filter: "",
       initialPagination: {
         sortBy: "registro",
@@ -107,14 +116,14 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        {
-          name: "ticket",
-          label: "Ticket",
-          align: "center",
-          field: row => row.ticket,
-          format: val => `${val}`,
-          sortable: true
-        },
+        // {
+        //   name: "ticket",
+        //   label: "Ticket",
+        //   align: "center",
+        //   field: row => row.ticket,
+        //   format: val => `${val}`,
+        //   sortable: true
+        // },
         {
           name: "producto",
           label: "Producto",
@@ -129,18 +138,47 @@ export default {
     };
   },
   methods: {
-    ...mapActions("ordenes", ["mongolvaGet"]),
+    ...mapActions("ordenes", ["mongolvaGet", "get_generarpdfs"]),
     async page_loading_ini() {
       await this.$q.loading.show();
     },
     async page_loading_end() {
       await this.$q.loading.hide();
     },
+    async generandopdfs() {
+      this.$q.loading.show()
+      // console.log("e->", `${JSON.stringify(e[0])}`);
+      let pdfs = [];
+      const array = this.selected;
+      if (array.length > 0) {
+        console.log("array.length", array.length);
+        for (let i = 0; i < array.length; i++) {
+          const element = array[i];
+          // console.log("element", element)
+          pdfs.push({
+            id: element.id,
+            registro: element.registro,
+            detalle: element[0]
+          });
+          // console.log("asd->", pdfs);
+        }
+        const response = await this.get_generarpdfs(pdfs);
+        console.log("resposne->", response);
+        if (response.codRes === '00'){
+          await this.descargar(response.id)
+          this.selected = []
+        }
+        this.$q.loading.hide()
+      } else {
+        console.log("esta en 0")
+        this.$q.loading.hide()
+      }
+    },
     async descargar(e) {
       console.log("value", e);
       await this.page_loading_ini();
       fetch(
-        `https://api.apps.com.pe/fileserver/tickets/${e.registro.registro}_2.pdf`,
+        `https://api.apps.com.pe/fileserver/tickets/${e}_2.pdf`,
         {
           method: "GET", // or 'PUT'
           headers: {
