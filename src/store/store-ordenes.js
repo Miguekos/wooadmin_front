@@ -41,7 +41,7 @@ const actions = {
                     tipodepago: element.tipodepago,
                     control: "",
                     estado: "7",
-                    valordeflete: "0",
+                    valordeflete: element.precio,
                     proveedores: "RAPUNCEL ORGANIC",
                     user_registrante: "RAPUNCEL ORGANIC",
                     responsable: 190632392,
