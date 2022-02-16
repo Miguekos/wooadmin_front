@@ -42,6 +42,21 @@
         </q-select>
       </div>
       <div class="col-12 col-md">
+        <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
+      </div>
+      <div class="col-12 col-md">
+        <q-input dense filled v-model="fechaFin" label="ID Maximo" />
+      </div>
+      <div class="col-12 col-md">
+        <q-btn
+          color="orange-6"
+          class="full-width"
+          @click="cargar_ordenes()"
+          text-color="white"
+          label="Cargar"
+        />
+      </div>
+      <div class="col-12 col-md">
         <q-btn
           color="green-6"
           class="full-width"
@@ -113,6 +128,7 @@
             <q-td :props="props">
               <q-btn
                 color="orange"
+                class="text-black text-bold"
                 size="sm"
                 rounded
                 @click="detalleCliente(props.row)"
@@ -122,12 +138,16 @@
             </q-td>
           </template>
           <template v-slot:body-cell-city_ori="props">
-            <q-td @click="detalleCliente(props.row)" :props="props">
+            <q-td
+              @click="addselect(props.row)"
+              class="cursor-pointer"
+              :props="props"
+            >
               <!--              <div v-if="props.row.billing.porcentaje > 80">asd</div>-->
               <q-badge v-if="props.row.billing.porcentaje > 80" color="blue-10">
                 {{ props.value }}
               </q-badge>
-              <q-badge v-else color="orange-11">
+              <q-badge v-else color="red-10">
                 {{ props.value }}
               </q-badge>
             </q-td>
@@ -200,7 +220,28 @@ import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
 export default {
   computed: {
     ...mapGetters("ordenes", ["getOrdenes"]),
-    ...mapState("ordenes", ["backbutton", "searchactive"]),
+    ...mapState("ordenes", [
+      "backbutton",
+      "searchactive",
+      "ini_date",
+      "fin_date"
+    ]),
+    fechaIncio: {
+      get() {
+        return this.ini_date;
+      },
+      set(val) {
+        this.setFechaIni(val);
+      }
+    },
+    fechaFin: {
+      get() {
+        return this.fin_date;
+      },
+      set(val) {
+        this.setFechaFin(val);
+      }
+    },
     filtrosNuevos() {
       // console.log("NUevos filtros", this.filteredByAll);
       const array = this.filteredByAll;
@@ -237,6 +278,8 @@ export default {
   },
   data() {
     return {
+      id_ini: "",
+      id_fin: "",
       initialPagination: {
         sortBy: "id_pedido",
         descending: true,
@@ -282,6 +325,11 @@ export default {
           sortable: true
         },
         {
+          name: "fecha_registro",
+          label: "Fecha",
+          field: row => row.fecha_registro
+        },
+        {
           name: "enviado",
           align: "right",
           label: "Estado",
@@ -308,16 +356,16 @@ export default {
           align: "right",
           sortable: true
         },
-        {
-          name: "shipping_address_1",
-          label: "Direccion Envio",
-          field: row => row.billing.address_1
-        },
         { name: "city", label: "Ciudad", field: row => row.billing.city },
         {
           name: "city_ori",
           label: "Ciudad Ori",
           field: row => row.billing.city_ori
+        },
+        {
+          name: "shipping_address_1",
+          label: "Direccion Envio",
+          field: row => row.billing.address_1
         },
         {
           name: "phone",
@@ -329,11 +377,6 @@ export default {
           label: "Correo",
           field: row => row.billing.email
         }
-        // {
-        //   name: "shipping_total",
-        //   label: "Costo de Envio",
-        //   field: (row) => row.shipping_total,
-        // },
       ],
       list: []
     };
@@ -347,8 +390,53 @@ export default {
     ...mapActions("ordenes", [
       "callOrdenes",
       "OlvaEnvio",
-      "call_realizar_envio"
+      "call_realizar_envio",
+      "setFechaIni",
+      "setFechaFin"
     ]),
+    async calcular_rango() {
+      if (this.ini_date != 0 && this.fin_date != 0) {
+        const calculo = Number(this.fin_date) - Number(this.ini_date);
+        console.log("calculo->", calculo);
+        if (calculo <= 200) {
+          await Loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: "green-5",
+            spinnerSize: 80
+          });
+          await this.callOrdenes({
+            page: 2,
+            cant: 100,
+            ini: this.ini_date,
+            fin: this.fin_date
+          });
+          this.list = this.getOrdenes;
+          this.selected = []
+          await Loading.hide();
+        } else {
+          this.$q.notify({
+            position: "top-right",
+            color: "red",
+            message: `Los registros no pueden exceder los 200`
+          });
+        }
+      }
+    },
+    async cargar_ordenes() {
+      await this.calcular_rango();
+    },
+    addselect(e) {
+      console.log("e", e);
+      const foundIndex = this.selected.findIndex(x => x.id == e.id);
+      console.log("foundIndex", foundIndex);
+      if (foundIndex < 0) {
+        this.selected.push(e);
+      } else {
+        const newArray = this.selected.filter(item => item.id !== e.id);
+        console.log(newArray);
+        this.selected = newArray;
+      }
+    },
     tipoDePago(obj, e) {
       // console.log("tipoDePago->",e)
       const item = obj;
@@ -402,11 +490,14 @@ export default {
                 position: "top-right"
               });
               this.selected = [];
-              await this.callOrdenes({
-                page: 2,
-                cant: 100
-              });
-              this.list = this.getOrdenes;
+              // await this.callOrdenes({
+              //   page: 2,
+              //   cant: 100,
+              //   ini: this.ini_date,
+              //   fin: this.fin_date
+              // });
+              // this.list = this.getOrdenes;
+              await this.calcular_rango();
               await Loading.hide();
             } else if (envioOlva.codRes === "01") {
               this.$q.notify({
@@ -499,26 +590,34 @@ export default {
     }
   },
   async mounted() {
+    await this.calcular_rango();
     // this.loading = true;
-    await Loading.show({
-      spinner: QSpinnerGears,
-      spinnerColor: "green-5",
-      spinnerSize: 80
-    });
-    await this.callOrdenes({
-      page: 2,
-      cant: 100
-    });
-    this.list = this.getOrdenes;
-    // const array = this.getOrdenes;
-    // this.list = array;
-    // for (let index = 0; index < array.length; index++) {
-    //   const element = array[index];
-    //   this.status.push(element.status);
-    //   this.city.push(element.shipping.city);
-    //   this.payment_method_title.push(element.payment_method_title);
+    // if (this.ini_date == 0 && this.fin_date == 0) {
+    // } else {
+    //   await Loading.show({
+    //     spinner: QSpinnerGears,
+    //     spinnerColor: "green-5",
+    //     spinnerSize: 80
+    //   });
+      // await this.callOrdenes({
+      //   page: 2,
+      //   cant: 100,
+      //   ini: this.ini_date,
+      //   fin: this.fin_date
+      // });
+      // this.list = this.getOrdenes;
+
+
+      // const array = this.getOrdenes;
+      // this.list = array;
+      // for (let index = 0; index < array.length; index++) {
+      //   const element = array[index];
+      //   this.status.push(element.status);
+      //   this.city.push(element.shipping.city);
+      //   this.payment_method_title.push(element.payment_method_title);
+      // }
+      // await Loading.hide();
     // }
-    await Loading.hide();
   }
 };
 </script>
