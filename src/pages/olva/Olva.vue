@@ -19,36 +19,44 @@
       :selected.sync="selected"
     >
       <template v-slot:top-right>
-        <div class="col-12 col-md q-mr-sm">
-          <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
+        <div class="row">
+          <div class="col-xs-4 col-md q-pa-xs">
+            <q-input
+              dense
+              filled
+              debounce="300"
+              v-model="filter"
+              placeholder="Buscar"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
+          <div class="col-xs-4 col-md q-pa-xs">
+            <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
+          </div>
+          <div class="col-xs-4 col-md q-pa-xs">
+            <q-input dense filled v-model="fechaFin" label="ID Maximo" />
+          </div>
+          <div class="col-xs-6 col-md q-pa-xs">
+            <q-btn
+              class="full-width"
+              color="orange-6"
+              @click="cargar_ordenes()"
+              text-color="white"
+              label="Cargar"
+            />
+          </div>
+          <div class="col-xs-6 col-md q-pa-xs">
+            <q-btn
+              color="primary"
+              label="Imprimir"
+              class="text-black full-width"
+              @click="generandopdfs()"
+            ></q-btn>
+          </div>
         </div>
-        <div class="col-12 col-md q-mr-sm">
-          <q-input dense filled v-model="fechaFin" label="ID Maximo" />
-        </div>
-        <q-btn
-          color="orange-6"
-          class="q-mr-sm"
-          @click="cargar_ordenes()"
-          text-color="white"
-          label="Cargar"
-        />
-        <q-btn
-          color="primary"
-          label="generar impresion"
-          class="text-black q-mr-sm"
-          @click="generandopdfs()"
-        ></q-btn>
-        <q-input
-          dense
-          filled
-          debounce="300"
-          v-model="filter"
-          placeholder="Buscar"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
       </template>
       <template v-slot:no-data="{ icon, message, filter }">
         <div class="full-width row flex-center text-blue q-gutter-sm">
@@ -257,10 +265,12 @@ export default {
           var url = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = url;
-          a.download = `${e}.pdf`;
+          a.download = `${e}-${uuid.v4()}.pdf`;
           a.click();
           a.remove();
           setTimeout(() => window.URL.revokeObjectURL(url), 100);
+          // console.log('UUID v1:', uuid.v1());
+          // console.log('UUID v4:', uuid.v4());
           await this.page_loading_end();
         })
         .catch(async err => {

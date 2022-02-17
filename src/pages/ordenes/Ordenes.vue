@@ -1,11 +1,11 @@
 <template>
   <q-page class="q-pa-xs">
     {{ filtrosNuevos }}
-    <div class="row q-gutter-xs q-pa-xs">
-      <div class="col-12 col-md">
+    <div class="row">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-input dense filled v-model="keyword" label="Buscar por nombre" />
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-select
           color="orange-10"
           filled
@@ -17,7 +17,7 @@
         >
         </q-select>
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-select
           color="green-10"
           filled
@@ -29,7 +29,7 @@
         >
         </q-select>
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-select
           color="indigo-10"
           filled
@@ -41,13 +41,13 @@
         >
         </q-select>
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-input dense filled v-model="fechaFin" label="ID Maximo" />
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-btn
           color="orange-6"
           class="full-width"
@@ -56,7 +56,7 @@
           label="Cargar"
         />
       </div>
-      <div class="col-12 col-md">
+      <div class="col-xs-3 col-md q-pa-xs">
         <q-btn
           color="green-6"
           class="full-width"
