@@ -144,7 +144,7 @@
               :props="props"
             >
               <!--              <div v-if="props.row.billing.porcentaje > 80">asd</div>-->
-              <q-badge v-if="props.row.billing.porcentaje > 80" color="blue-10">
+              <q-badge v-if="props.row.billing.porcentaje > 79" color="blue-10">
                 {{ props.value }}
               </q-badge>
               <q-badge v-else color="red-10">
