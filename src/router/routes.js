@@ -11,6 +11,10 @@ const routes = [
       { path: 'texcargo', component: () => import('pages/olva/Olva.vue') },
       { path: 'test', component: () => import('pages/TestFilter.vue') },
     ]
+  },
+  {
+    path: "/auth",
+    component: () => import("pages/Auth/PageAuth.vue")
   }
 ]
 
