@@ -29,15 +29,15 @@
               placeholder="Buscar"
             >
               <template v-slot:append>
-                <q-icon name="search" />
+                <q-icon name="search"/>
               </template>
             </q-input>
           </div>
           <div class="col-xs-4 col-md q-pa-xs">
-            <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
+            <q-input dense filled v-model="fechaIncio" label="ID Minimo"/>
           </div>
           <div class="col-xs-4 col-md q-pa-xs">
-            <q-input dense filled v-model="fechaFin" label="ID Maximo" />
+            <q-input dense filled v-model="fechaFin" label="ID Maximo"/>
           </div>
           <div class="col-xs-6 col-md q-pa-xs">
             <q-btn
@@ -56,13 +56,21 @@
               @click="generandopdfs()"
             ></q-btn>
           </div>
+          <div class="col-xs-12 col-md q-pa-xs">
+            <q-btn
+              color="green"
+              label="Reporte"
+              class="text-white full-width"
+              @click="download()"
+            ></q-btn>
+          </div>
         </div>
       </template>
       <template v-slot:no-data="{ icon, message, filter }">
         <div class="full-width row flex-center text-blue q-gutter-sm">
-          <q-icon size="2em" name="sentiment_dissatisfied" />
+          <q-icon size="2em" name="sentiment_dissatisfied"/>
           <span> Bueno... esto es triste: {{ message }} </span>
-          <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+          <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon"/>
         </div>
       </template>
       <template v-slot:body-cell-ticket="props">
@@ -94,8 +102,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
-import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
+import {mapGetters, mapActions, mapState} from "vuex";
+import {Loading, QSpinnerGears, QSpinnerBars} from "quasar";
+import {date} from "quasar";
+import XLSX from "xlsx";
 
 export default {
   computed: {
@@ -122,11 +132,27 @@ export default {
     return {
       selected: [],
       filter: "",
+      json_fields: {
+        name: "Nombre",
+        lastname: "Apellido",
+        idpedido: "Pedido",
+        registro: "Registro",
+        comuna: "Comuna",
+        control: "Control",
+        direccion: "Direccion",
+        // estado: "Estado",
+        proveedores: "Proveedor",
+        responsable: "Responsable",
+        telf: "Telefono",
+        tipodepago: "Tipo de pago",
+        user_registrante: "User Registrante",
+        valordeflete: "Valor de flete",
+      },
       initialPagination: {
         sortBy: "id",
         descending: true,
         page: 1,
-        rowsPerPage: 100
+        rowsPerPage: 200
         // rowsNumber: xx if getting data from a server
       },
       columns: [
@@ -190,6 +216,54 @@ export default {
       "setFechaIni",
       "setFechaFin"
     ]),
+    renameKeys(obj, newKeys) {
+      const keyValues = Object.keys(obj).map(key => {
+        const newKey = newKeys[key] || key;
+        if (newKeys[key] !== undefined) {
+          // console.log(fechaOrder);
+          if (key === "created_at") {
+            let newDate = new Date(obj[key]);
+            return {
+              [newKey]: date.formatDate(newDate, "ddd DD/MM/YY - hh:mm a")
+            };
+          } else {
+            return {[newKey]: obj[key]};
+          }
+        }
+      });
+      return Object.assign({}, ...keyValues);
+    },
+    download() {
+      if (this.selected.length > 0) {
+        // console.log(typeof this.dateExpo);
+        // console.log(this.tab);
+        let dataExport = [];
+        for (let index = 0; index < this.selected.length; index++) {
+          const objID = this.selected[index].registro;
+          const obj = this.selected[index];
+          // console.log('obj', obj)
+          const renamedObj = this.renameKeys({
+            ...obj,
+            ...objID
+          }, this.json_fields);
+          // console.log("renamedObj", renamedObj);
+          dataExport.push(renamedObj);
+        }
+        console.log('dataExport', dataExport.sort((a, b) => (a.registro > b.registro) ? 1 : -1))
+        const myHeader = ["Nombre", "Apellido", "Pedido", "Registro", "Telefono", "Comuna", "Control", "Direccion", "Proveedor", "Tipo de pago", "Valor de flete"];
+        const data = XLSX.utils.json_to_sheet(dataExport, {header: myHeader});
+        const wb = XLSX.utils.book_new();
+        let timeStamp = Date.now();
+        const filename = `${date.formatDate(timeStamp, "DD_MM_YYYY_SS")}`;
+        XLSX.utils.book_append_sheet(wb, data, "data");
+        XLSX.writeFile(wb, `${filename}.xlsx`);
+        this.selected = []
+      } else {
+        this.$q.notify({
+          message: "debe selecionar 1 registro como minimo para exportar"
+        })
+      }
+    },
     async calcular_rango() {
       const calculo = Number(this.fin_date) - Number(this.ini_date);
       console.log("calculo->", calculo);
@@ -243,7 +317,21 @@ export default {
         console.log("resposne->", response);
         if (response.codRes === "00") {
           await this.descargar(response.id);
-          this.selected = [];
+          this.$q.dialog({
+            title: 'Reporte',
+            message: 'Quieres descargar el reporte generado?',
+            cancel: true,
+            persistent: true
+          }).onOk(() => {
+            this.download()
+          }).onOk(() => {
+            // console.log('>>>> second OK catcher')
+          }).onCancel(() => {
+            // console.log('>>>> Cancel')
+          }).onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          })
+          // this.selected = [];
         }
         this.$q.loading.hide();
       } else {

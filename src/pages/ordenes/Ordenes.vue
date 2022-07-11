@@ -3,90 +3,90 @@
     {{ filtrosNuevos }}
     <div class="row">
       <div class="col-xs-3 col-md q-pa-xs">
-        <q-input dense filled v-model="keyword" label="Buscar por nombre" />
+        <q-input dense filled v-model="keyword" label="Buscar por nombre"/>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
         <q-select
-          color="orange-10"
-          filled
-          clearable
-          dense
-          v-model="citys"
-          :options="city_unique"
-          label="Ciudades"
+            color="orange-10"
+            filled
+            clearable
+            dense
+            v-model="citys"
+            :options="city_unique"
+            label="Ciudades"
         >
         </q-select>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
         <q-select
-          color="green-10"
-          filled
-          clearable
-          dense
-          v-model="statuss"
-          :options="status_unique"
-          label="Estados"
+            color="green-10"
+            filled
+            clearable
+            dense
+            v-model="statuss"
+            :options="status_unique"
+            label="Estados"
         >
         </q-select>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
         <q-select
-          color="indigo-10"
-          filled
-          clearable
-          dense
-          v-model="payment_method_titles"
-          :options="payment_method_title_unique"
-          label="Metodos de Pago"
+            color="indigo-10"
+            filled
+            clearable
+            dense
+            v-model="payment_method_titles"
+            :options="payment_method_title_unique"
+            label="Metodos de Pago"
         >
         </q-select>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
-        <q-input dense filled v-model="fechaIncio" label="ID Minimo" />
+        <q-input dense filled v-model="fechaIncio" label="ID Minimo"/>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
-        <q-input dense filled v-model="fechaFin" label="ID Maximo" />
+        <q-input dense filled v-model="fechaFin" label="ID Maximo"/>
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
         <q-btn
-          color="orange-6"
-          class="full-width"
-          @click="cargar_ordenes()"
-          text-color="white"
-          label="Cargar"
+            color="orange-6"
+            class="full-width"
+            @click="cargar_ordenes()"
+            text-color="white"
+            label="Cargar"
         />
       </div>
       <div class="col-xs-3 col-md q-pa-xs">
         <q-btn
-          color="green-6"
-          class="full-width"
-          @click="realizar_envio()"
-          text-color="white"
-          label="enviar"
+            color="green-6"
+            class="full-width"
+            @click="realizar_envio()"
+            text-color="white"
+            label="enviar"
         />
       </div>
     </div>
     <template>
       <div class="q-pa-xs">
         <q-table
-          dense
-          class="my-sticky-header-table"
-          color="primary"
-          card-class="bg-amber-1 text-brown"
-          table-class="text-grey-8"
-          table-header-class="text-brown"
-          flat
-          virtual-scroll
-          :pagination="initialPagination"
-          rows-per-page-label=" "
-          title="Ordenes"
-          :data="filteredByAll"
-          :columns="columns"
-          row-key="id"
-          :loading="loading"
-          :filter="filter"
-          selection="multiple"
-          :selected.sync="selected"
+            dense
+            class="my-sticky-header-table"
+            color="primary"
+            card-class="bg-amber-1 text-brown"
+            table-class="text-grey-8"
+            table-header-class="text-brown"
+            flat
+            virtual-scroll
+            :pagination="initialPagination"
+            rows-per-page-label=" "
+            title="Ordenes"
+            :data="filteredByAll"
+            :columns="columns"
+            row-key="id"
+            :loading="loading"
+            :filter="filter"
+            selection="multiple"
+            :selected.sync="selected"
         >
           <!--          <template v-slot:body-cell="props">-->
           <!--            <q-td @click="detalleCliente(props.row.line_items)" :props="props">-->
@@ -96,29 +96,29 @@
           <template v-slot:body-cell-tipodepago="props">
             <q-td :props="props">
               <q-btn
-                v-if="props.row.tipodepago === 'Pagado'"
-                color="info"
-                size="sm"
-                rounded
-                @click="tipoDePago(props.row, 'Por Pagar')"
+                  v-if="props.row.tipodepago === 'Pagado'"
+                  color="info"
+                  size="xs"
+                  rounded
+                  @click="tipoDePago(props.row, 'Por pagar')"
               >
                 {{ props.row.tipodepago }}
               </q-btn>
               <q-btn
-                v-else-if="props.row.tipodepago === 'Por Pagar'"
-                color="green"
-                size="sm"
-                rounded
-                @click="tipoDePago(props.row, '')"
+                  v-else-if="props.row.tipodepago === 'Por pagar'"
+                  color="green"
+                  size="xs"
+                  rounded
+                  @click="tipoDePago(props.row, '')"
               >
                 {{ props.row.tipodepago }}
               </q-btn>
               <q-btn
-                v-else-if="props.row.tipodepago === ''"
-                color="black"
-                size="sm"
-                rounded
-                @click="tipoDePago(props.row, 'Pagado')"
+                  v-else-if="props.row.tipodepago === ''"
+                  color="black"
+                  size="xs"
+                  rounded
+                  @click="tipoDePago(props.row, 'Pagado')"
               >
                 Ninguno
               </q-btn>
@@ -127,11 +127,11 @@
           <template v-slot:body-cell-id_pedido="props">
             <q-td :props="props">
               <q-btn
-                color="orange"
-                class="text-black text-bold"
-                size="sm"
-                rounded
-                @click="detalleCliente(props.row)"
+                  color="orange"
+                  class="text-black text-bold"
+                  size="sm"
+                  rounded
+                  @click="detalleCliente(props.row)"
               >
                 {{ props.value }}
               </q-btn>
@@ -139,12 +139,12 @@
           </template>
           <template v-slot:body-cell-city_ori="props">
             <q-td
-              @click="addselect(props.row)"
-              class="cursor-pointer"
-              :props="props"
+                @click="addselect(props.row)"
+                class="cursor-pointer"
+                :props="props"
             >
               <!--              <div v-if="props.row.billing.porcentaje > 80">asd</div>-->
-              <q-badge v-if="props.row.billing.porcentaje > 79" color="blue-10">
+              <q-badge v-if="props.row.billing.porcentaje >= 92" color="blue-10">
                 {{ props.value }}
               </q-badge>
               <q-badge v-else color="red-10">
@@ -165,9 +165,9 @@
           </template>
           <template v-slot:no-data="{ icon, message, filter }">
             <div class="full-width row flex-center text-green-7 q-gutter-sm">
-              <q-icon size="2em" name="sentiment_dissatisfied" />
+              <q-icon size="2em" name="sentiment_dissatisfied"/>
               <span> Bueno... esto es triste: {{ message }} </span>
-              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+              <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon"/>
             </div>
           </template>
         </q-table>
@@ -179,17 +179,17 @@
           <div class="text-h6">Detalle del Pedido {{ detalleInfo.id }}</div>
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-section style="max-height: 50vh" class="scroll">
-          <Detalle :info="detalleInfo.line_items" />
+          <Detalle :info="detalleInfo.line_items"/>
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-actions align="right">
           <!--          <q-btn flat label="Decline" color="primary" v-close-popup/>-->
-          <q-btn flat label="Cerrar" color="primary" v-close-popup />
+          <q-btn flat label="Cerrar" color="primary" v-close-popup/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -213,9 +213,10 @@
 </template>
 
 <script>
-import { axiosInstance } from "boot/axios";
-import { mapGetters, mapActions, mapState } from "vuex";
-import { Loading, QSpinnerGears, QSpinnerBars } from "quasar";
+import {axiosInstance} from "boot/axios";
+import {mapGetters, mapActions, mapState} from "vuex";
+import {Loading, QSpinnerGears, QSpinnerBars} from "quasar";
+import XLSX from "xlsx";
 
 export default {
   computed: {
@@ -257,12 +258,12 @@ export default {
     },
     filteredByAll() {
       const keyw = this.getByKeyword(this.list, this.keyword),
-        stat = this.getByStatus(keyw, this.statuss),
-        cunt = this.getByCity(stat, this.citys),
-        metPago = this.getByPayment_method_title(
-          cunt,
-          this.payment_method_titles
-        );
+          stat = this.getByStatus(keyw, this.statuss),
+          cunt = this.getByCity(stat, this.citys),
+          metPago = this.getByPayment_method_title(
+              cunt,
+              this.payment_method_titles
+          );
       return metPago;
     },
     status_unique() {
@@ -304,7 +305,7 @@ export default {
         sortBy: "id_pedido",
         descending: true,
         page: 1,
-        rowsPerPage: 100
+        rowsPerPage: 200
         // rowsNumber: xx if getting data from a server
       },
       columns: [
@@ -347,7 +348,9 @@ export default {
           label: "Tipo Envio",
           field: "tipodepago",
           align: "right",
+          style: 'width: 500px',
           sortable: true
+
         },
         {
           name: "precio",
@@ -356,7 +359,7 @@ export default {
           align: "right",
           sortable: true
         },
-        { name: "city", label: "Ciudad", field: row => row.billing.city },
+        {name: "city", label: "Ciudad", field: row => row.billing.city},
         {
           name: "city_ori",
           label: "Ciudad Ori",
@@ -394,6 +397,40 @@ export default {
       "setFechaIni",
       "setFechaFin"
     ]),
+    renameKeys(obj, newKeys) {
+      const keyValues = Object.keys(obj).map(key => {
+        const newKey = newKeys[key] || key;
+        if (newKeys[key] !== undefined) {
+          // console.log(fechaOrder);
+          if (key === this.dateExpo) {
+            let newDate = new Date(obj[key]);
+            return {
+              [newKey]: date.formatDate(newDate, "ddd DD/MM/YY - hh:mm a")
+            };
+          } else {
+            return { [newKey]: obj[key] };
+          }
+        }
+      });
+      return Object.assign({}, ...keyValues);
+    },
+    download() {
+      // console.log(typeof this.dateExpo);
+      // console.log(this.tab);
+      let dataExport = [];
+      for (let index = 0; index < this.filteredByAll.length; index++) {
+        const obj = this.filteredByAll[index];
+        const renamedObj = this.renameKeys(obj, this.json_fields);
+        console.log("renamedObj", renamedObj);
+        dataExport.push(renamedObj);
+      }
+      const data = XLSX.utils.json_to_sheet(dataExport);
+      const wb = XLSX.utils.book_new();
+      let timeStamp = Date.now();
+      const filename = `${date.formatDate(timeStamp, "DD_MM_YYYY_SS")}`;
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, `${filename}.xlsx`);
+    },
     async calcular_rango() {
       if (this.ini_date != 0 && this.fin_date != 0) {
         const calculo = Number(this.fin_date) - Number(this.ini_date);
@@ -453,9 +490,9 @@ export default {
     },
     getSelectedString() {
       return this.selected.length === 0
-        ? ""
-        : `${this.selected.length} record${
-            this.selected.length > 1 ? "s" : ""
+          ? ""
+          : `${this.selected.length} record${
+              this.selected.length > 1 ? "s" : ""
           } selected of ${this.data.length}`;
     },
     async realizar_envio() {
@@ -464,68 +501,68 @@ export default {
       console.log(this.selected.length);
       if (this.selected.length > 0) {
         this.$q
-          .dialog({
-            title: "Confirm",
-            message: "Quieres realizar el envio?",
-            cancel: true,
-            persistent: true
-          })
-          .onOk(async () => {
-            // console.log("Puede pasar");
-            await Loading.show({
-              spinner: QSpinnerBars,
-              spinnerColor: "green-5",
-              spinnerSize: 80
-              // backgroundColor: "purple",
-              // message: "Estamos enviando tus pedidos",
-              // messageColor: "black"
+            .dialog({
+              title: "Confirm",
+              message: "Quieres realizar el envio?",
+              cancel: true,
+              persistent: true
+            })
+            .onOk(async () => {
+              // console.log("Puede pasar");
+              await Loading.show({
+                spinner: QSpinnerBars,
+                spinnerColor: "green-5",
+                spinnerSize: 80
+                // backgroundColor: "purple",
+                // message: "Estamos enviando tus pedidos",
+                // messageColor: "black"
+              });
+              // console.log("items", items);
+              const envioOlva = await this.call_realizar_envio(items);
+              console.log("envioOlva->", envioOlva);
+              if (envioOlva.codRes === "00") {
+                this.$q.notify({
+                  message: "Proceso Correcto!",
+                  color: "green-8",
+                  position: "top-right"
+                });
+                this.selected = [];
+                // await this.callOrdenes({
+                //   page: 2,
+                //   cant: 100,
+                //   ini: this.ini_date,
+                //   fin: this.fin_date
+                // });
+                // this.list = this.getOrdenes;
+                await this.calcular_rango();
+                await Loading.hide();
+              } else if (envioOlva.codRes === "01") {
+                this.$q.notify({
+                  message: "Verifica comuna ó estado Tipo de envios!",
+                  color: "blue-8",
+                  position: "top-right"
+                });
+                this.selected = [];
+                await Loading.hide();
+              } else {
+                this.$q.notify({
+                  message: "Error Controlado!",
+                  color: "yellow-8",
+                  position: "top-right"
+                });
+                this.selected = [];
+                await Loading.hide();
+              }
+            })
+            .onOk(() => {
+              // console.log('>>>> second OK catcher')
+            })
+            .onCancel(() => {
+              // console.log('>>>> Cancel')
+            })
+            .onDismiss(() => {
+              // console.log('I am triggered on both OK and Cancel')
             });
-            // console.log("items", items);
-            const envioOlva = await this.call_realizar_envio(items);
-            console.log("envioOlva->", envioOlva);
-            if (envioOlva.codRes === "00") {
-              this.$q.notify({
-                message: "Proceso Correcto!",
-                color: "green-8",
-                position: "top-right"
-              });
-              this.selected = [];
-              // await this.callOrdenes({
-              //   page: 2,
-              //   cant: 100,
-              //   ini: this.ini_date,
-              //   fin: this.fin_date
-              // });
-              // this.list = this.getOrdenes;
-              await this.calcular_rango();
-              await Loading.hide();
-            } else if (envioOlva.codRes === "01") {
-              this.$q.notify({
-                message: "Verifica comuna ó estado Tipo de envios!",
-                color: "blue-8",
-                position: "top-right"
-              });
-              this.selected = [];
-              await Loading.hide();
-            } else {
-              this.$q.notify({
-                message: "Error Controlado!",
-                color: "yellow-8",
-                position: "top-right"
-              });
-              this.selected = [];
-              await Loading.hide();
-            }
-          })
-          .onOk(() => {
-            // console.log('>>>> second OK catcher')
-          })
-          .onCancel(() => {
-            // console.log('>>>> Cancel')
-          })
-          .onDismiss(() => {
-            // console.log('I am triggered on both OK and Cancel')
-          });
       } else {
         this.$q.notify({
           message: "Debe selecionar items para enviar",
@@ -538,7 +575,7 @@ export default {
       const search = keyword.trim().toLowerCase();
       if (!search.length) return list;
       return list.filter(
-        item => item.billing.first_name.toLowerCase().indexOf(search) > -1
+          item => item.billing.first_name.toLowerCase().indexOf(search) > -1
       );
     },
     getByStatus(list, status) {
@@ -562,9 +599,9 @@ export default {
     showLoading() {
       /* This is for Codepen (using UMD) to work */
       const spinner =
-        typeof QSpinnerFacebook !== "undefined"
-          ? QSpinnerFacebook // Non-UMD, imported above
-          : Quasar.components.QSpinnerFacebook; // eslint-disable-line
+          typeof QSpinnerFacebook !== "undefined"
+              ? QSpinnerFacebook // Non-UMD, imported above
+              : Quasar.components.QSpinnerFacebook; // eslint-disable-line
       /* End of Codepen workaround */
 
       this.$q.loading.show({
@@ -599,24 +636,24 @@ export default {
     //     spinnerColor: "green-5",
     //     spinnerSize: 80
     //   });
-      // await this.callOrdenes({
-      //   page: 2,
-      //   cant: 100,
-      //   ini: this.ini_date,
-      //   fin: this.fin_date
-      // });
-      // this.list = this.getOrdenes;
+    // await this.callOrdenes({
+    //   page: 2,
+    //   cant: 100,
+    //   ini: this.ini_date,
+    //   fin: this.fin_date
+    // });
+    // this.list = this.getOrdenes;
 
 
-      // const array = this.getOrdenes;
-      // this.list = array;
-      // for (let index = 0; index < array.length; index++) {
-      //   const element = array[index];
-      //   this.status.push(element.status);
-      //   this.city.push(element.shipping.city);
-      //   this.payment_method_title.push(element.payment_method_title);
-      // }
-      // await Loading.hide();
+    // const array = this.getOrdenes;
+    // this.list = array;
+    // for (let index = 0; index < array.length; index++) {
+    //   const element = array[index];
+    //   this.status.push(element.status);
+    //   this.city.push(element.shipping.city);
+    //   this.payment_method_title.push(element.payment_method_title);
+    // }
+    // await Loading.hide();
     // }
   }
 };

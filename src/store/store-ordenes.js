@@ -45,7 +45,7 @@ const actions = {
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
       console.log("element.envio", element);
-      if (!element.enviado && element.billing.porcentaje >= 79) {
+      if (!element.enviado && element.billing.porcentaje >= 92) {
         const enviar = {
           name: element.billing.first_name,
           lastname: element.billing.last_name,
@@ -55,7 +55,7 @@ const actions = {
           tipodepago: element.tipodepago,
           control: "",
           estado: "7",
-          valordeflete: `${element.precio}.00`,
+          valordeflete: `${element.precio}`,
           proveedores: "RAPUNCEL ORGANIC",
           user_registrante: "RAPUNCEL ORGANIC",
           responsable: 190632392,
@@ -76,7 +76,7 @@ const actions = {
           guardarMongo
         );
         console.log("enviando_azules", response_mongo);
-      } else if (!element.enviado && element.billing.porcentaje <= 78) {
+      } else if (!element.enviado && element.billing.porcentaje <= 91) {
         const enviar = {
           name: element.billing.first_name,
           lastname: element.billing.last_name,
@@ -106,6 +106,8 @@ const actions = {
           guardarMongo
         );
         console.log("enviando_amarillos");
+      } else {
+        console.log("no se envio");
       }
     }
     return {
@@ -211,7 +213,9 @@ const actions = {
   },
   async mongolvaGet({ commit }, payload) {
     console.log("Todos los GET mongolva");
-    const response = await axiosInstance.get(`/mongolva/${payload.ini}/${payload.fin}`);
+    const response = await axiosInstance.get(
+      `/mongolva/${payload.ini}/${payload.fin}`
+    );
     console.log("Todos los GET mongolva");
     commit("getOlva", response.data);
     // return response.data;
