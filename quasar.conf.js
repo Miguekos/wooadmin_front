@@ -15,6 +15,7 @@ module.exports = function (/* ctx */) {
       'i18n',
       'axios',
       'addressbar-color',
+      'socket',
       'router-auth'
     ],
 

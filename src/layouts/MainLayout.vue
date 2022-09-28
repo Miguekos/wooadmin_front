@@ -101,6 +101,12 @@ export default {
           link: "#/ordenes"
         },
         {
+          title: "New Ordenes",
+          caption: "Listar Ordenes",
+          icon: "view_list",
+          link: "#/newordenes"
+        },
+        {
           title: "Productos",
           caption: "Listar Productos",
           icon: "blur_circular",
@@ -120,6 +126,14 @@ export default {
         // }
       ]
     };
+  },
+  created (){
+    console.log('this.sockets', this.sockets);
+    this.sockets.subscribe('woorapuncel', async data => {
+      console.log("socket dniwoorapuncel", data);
+      // this.getPosition();
+    });
+    this.$socket.emit("conectado", 'conectado');
   }
 };
 </script>

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 axios.defaults.withCredentials = false;
 // import qs from "qs";
 // import proxy from "http-proxy-middleware";
@@ -15,8 +16,8 @@ let URLs;
 if (process.env.DEV) {
   // URLs = "http://95.111.235.214:8050"
   // URLs = "http://192.168.0.33:8050"
-  // URLs = "http://192.168.1.2:8050";
-  URLs = "https://api.apps.com.pe"
+  // URLs = "http://192.168.18.63:8050";
+  URLs = "https://apipro.apps.com.pe/wooadminrapuncel"
 }
 
 if (process.env.PRO) {
@@ -34,7 +35,7 @@ const axiosInstancePdfs = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
-  // baseURL: "http://192.168.18.5:8050"
+  // baseURL: "http://192.168.18.63:8050"
   // baseURL: "http://192.168.18.5:4545"
   baseURL: "https://api.apps.com.pe"
   // baseURL : URLs
@@ -52,8 +53,8 @@ const axiosInstance = axios.create({
   // baseURL: "http://95.111.235.214:8050"
   // baseURL: "http://192.168.0.33:8050"
   // baseURL: "http://192.168.0.32:8050"
-  // baseURL: "http://192.168.18.5:8050"
-  baseURL: "https://api.apps.com.pe"
+  // baseURL: "http://192.168.18.63:8050"
+  baseURL: "https://apipro.apps.com.pe/wooadminrapuncel"
   // baseURL : URLs
 });
 // TexCargo
@@ -74,8 +75,8 @@ const axiosInstanceAPI = axios.create({
 });
 axiosInstanceAPI.defaults.headers.common["token"] = "2bacb1b1bbab2cc23122";
 
-export default ({ Vue }) => {
+export default ({Vue}) => {
   Vue.prototype.$axios = axiosInstance;
 };
 
-export { axiosInstance, axiosInstanceAPI, axiosInstancePdfs };
+export {axiosInstance, axiosInstanceAPI, axiosInstancePdfs};

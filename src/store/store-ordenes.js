@@ -2,6 +2,7 @@ import { axiosInstance, axiosInstanceAPI, axiosInstancePdfs } from "boot/axios";
 
 const state = {
   Ordenes: [],
+  OrdenesNew: [],
   search: "",
   searchNew: "",
   searchactive: true,
@@ -11,6 +12,9 @@ const state = {
 };
 
 const mutations = {
+  setOrdenesNew(state, payload) {
+    state.OrdenesNew = payload;
+  },
   setOrdenes(state, payload) {
     state.Ordenes = payload;
   },
@@ -134,6 +138,16 @@ const actions = {
     commit("setOrdenes", response.data);
     // return response.data;
   },
+
+  async callOrdenesNews({ commit }, payload) {
+    console.log("Todos los ordenes");
+    const response = await axiosInstance.get(
+      `/ordenes/new`
+    );
+    console.log("setOrdenesNew");
+    commit("setOrdenesNew", response.data);
+    // return response.data;
+  },
   async OlvaEnvio({ commit }, payload) {
     console.log("Todos los ordenes");
     // console.log(enviarOlva(payload));
@@ -239,6 +253,9 @@ const actions = {
 };
 
 const getters = {
+  getOrdenesNew(state){
+    return state.OrdenesNew
+  },
   getOlva(state) {
     return state.getOlva;
   },
