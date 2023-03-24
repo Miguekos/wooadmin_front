@@ -1,5 +1,5 @@
 # develop stage
-FROM node:13.7 as build-stage
+FROM node:14.16 as build-stage
 # COPY . ./app
 COPY ["package*.json" ,  "/app/"]
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 RUN npm install -g @quasar/cli
 RUN npm install
 COPY ["." ,  "/app/"]
-RUN quasar build --modern
+RUN quasar build
 # production stage
 FROM nginx:1.20.1-alpine as production-stage
 COPY --from=build-stage /app/dist/spa /usr/share/nginx/html

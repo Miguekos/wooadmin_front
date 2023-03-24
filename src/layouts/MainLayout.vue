@@ -12,7 +12,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
         <q-toolbar-title class="text-accent"
-          >Rapunzel <b class="text-positive">Admin Panel</b></q-toolbar-title
+        >Rapunzel <b class="text-positive">Admin Panel</b></q-toolbar-title
         >
         <div class="text-positive">V{{ $q.version }}</div>
       </q-toolbar>
@@ -35,13 +35,14 @@
       <q-list>
         <q-item-label header class="text-grey-8">
           <q-item-label header class="text-center text-h6 q-pa-xs"
-            >Perfil</q-item-label
+          >Perfil
+          </q-item-label
           >
-          <q-separator spaced />
+          <q-separator spaced/>
           <q-list>
             <q-item clickable v-ripple class="justify-center">
               <q-avatar size="100px" font-size="52px">
-                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png"/>
               </q-avatar>
             </q-item>
             <q-item clickable v-ripple class="justify-center">
@@ -75,7 +76,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
@@ -100,12 +101,12 @@ export default {
           icon: "view_list",
           link: "#/ordenes"
         },
-        {
-          title: "New Ordenes",
-          caption: "Listar Ordenes",
-          icon: "view_list",
-          link: "#/newordenes"
-        },
+//        {
+//          title: "New Ordenes",
+//          caption: "Listar Ordenes",
+//          icon: "view_list",
+//          link: "#/newordenes"
+//        },
         {
           title: "Productos",
           caption: "Listar Productos",
@@ -113,10 +114,10 @@ export default {
           link: "#/productos"
         },
         {
-          title: "TexCargo",
+          title: "ForceXpress",
           caption: "Listar Envios",
           icon: "markunread",
-          link: "#/texcargo"
+          link: "#/forcexpress"
         }
         // {
         //   title: "Detalle Ordenes",
@@ -127,13 +128,12 @@ export default {
       ]
     };
   },
-  created (){
-    console.log('this.sockets', this.sockets);
-    this.sockets.subscribe('woorapuncel', async data => {
-      console.log("socket dniwoorapuncel", data);
-      // this.getPosition();
-    });
-    this.$socket.emit("conectado", 'conectado');
+  created() {
+//    console.log('this.sockets', this.sockets);
+//    this.sockets.subscribe('woorapuncel', async data => {
+//      console.log("socket dniwoorapuncel", data);
+//    });
+//    this.$socket.emit("conectado", 'conectado');
   }
 };
 </script>

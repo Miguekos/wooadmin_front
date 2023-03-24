@@ -57,7 +57,7 @@ const axiosInstance = axios.create({
   baseURL: "https://apipro.apps.com.pe/wooadminrapuncel"
   // baseURL : URLs
 });
-// TexCargo
+// ForceXpress
 const axiosInstanceAPI = axios.create({
   // paramsSerializer: params => {
   //   return qs.stringify(params, { arrayFormat: "repeat" });

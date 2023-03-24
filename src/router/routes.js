@@ -9,7 +9,7 @@ const routes = [
       { path: 'newordenes', component: () => import('pages/NewOrders.vue') },
       { path: 'detalle', component: () => import('pages/ordenes/DetalleOrdenes.vue') },
       { path: 'productos', component: () => import('pages/productos/Productos.vue') },
-      { path: 'texcargo', component: () => import('pages/olva/Olva.vue') },
+      { path: 'forcexpress', component: () => import('pages/olva/Olva.vue') },
       { path: 'test', component: () => import('pages/TestFilter.vue') },
     ]
   },

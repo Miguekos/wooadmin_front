@@ -10,7 +10,7 @@
       flat
       :filter="filter"
       virtual-scroll
-      title="Envios TexCargo"
+      title="Envios ForceXpress"
       :data="getOlva"
       :columns="columns"
       row-key="id"
